@@ -1,0 +1,1027 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "KeyName": {
+      "Description": "Name of an existing ec2 KeyPair to enable SSH access",
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "ConstraintDescription": "Must be the name of an existing EC2 KeyPair"
+    },
+    "SSHLocation": {
+      "Description": "The IP address range that can be used to SSH to the EC2 instances",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x/x"
+    }
+  },
+  "Resources": {
+    "VPC": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "EnableDnsSupport": true,
+        "EnableDnsHostnames": true,
+        "CidrBlock": "10.0.0.0/16",
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          }
+        ]
+      }
+    },
+    "Subnet": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "CidrBlock": "10.0.0.0/24",
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          }
+        ]
+      }
+    },
+    "InternetGateway": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          }
+        ]
+      }
+    },
+    "AttachGateway": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "InternetGatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+    "RouteTable": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          }
+        ]
+      }
+    },
+    "Route": {
+      "Type": "AWS::EC2::Route",
+      "DependsOn": "AttachGateway",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "RouteTable"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "InternetGateway"
+        }
+      }
+    },
+    "SubnetRouteTableAssociation": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "Subnet"
+        },
+        "RouteTableId": {
+          "Ref": "RouteTable"
+        }
+      }
+    },
+    "NetworkAcl": {
+      "Type": "AWS::EC2::NetworkAcl",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "Tags": [
+          {
+            "Key": "Application",
+            "Value": {
+              "Ref": "AWS::StackId"
+            }
+          }
+        ]
+      }
+    },
+    "InboundHTTPNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "100",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "false",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "80",
+          "To": "80"
+        }
+      }
+    },
+    "InboundSSHNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "101",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "false",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "22",
+          "To": "22"
+        }
+      }
+    },
+    "InboundResponsePortsNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "102",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "false",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "1024",
+          "To": "65535"
+        }
+      }
+    },
+    "InboundHTTPSPortsNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "103",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "false",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "443",
+          "To": "443"
+        }
+      }
+    },
+    "OutBoundHTTPNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "100",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "true",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "80",
+          "To": "80"
+        }
+      }
+    },
+    "OutBoundHTTPSNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "101",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "true",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "443",
+          "To": "443"
+        }
+      }
+    },
+    "OutBoundResponsePortsNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "102",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "true",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "1024",
+          "To": "65535"
+        }
+      }
+    },
+    "OutBoundSSHNetworkAclEntry": {
+      "Type": "AWS::EC2::NetworkAclEntry",
+      "Properties": {
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        },
+        "RuleNumber": "103",
+        "Protocol": "6",
+        "RuleAction": "allow",
+        "Egress": "true",
+        "CidrBlock": "0.0.0.0/0",
+        "PortRange": {
+          "From": "22",
+          "To": "22"
+        }
+      }
+    },
+    "SubnetNetworkAclAssociation": {
+      "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "Subnet"
+        },
+        "NetworkAclId": {
+          "Ref": "NetworkAcl"
+        }
+      }
+    },
+    "DeliverySecGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId": {
+          "Ref": "VPC"
+        },
+        "GroupDescription": "Enable required ports for Delivery Cluster",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8080",
+            "ToPort": "8080",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8000",
+            "ToPort": "8000",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "10012",
+            "ToPort": "10013",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "6443",
+            "ToPort": "6443",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "4321",
+            "ToPort": "4321",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "5672",
+            "ToPort": "5672",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "9683",
+            "ToPort": "9683",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8080",
+            "ToPort": "8099",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "909",
+            "ToPort": "909",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "808",
+            "ToPort": "808",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8989",
+            "ToPort": "8989",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "389",
+            "ToPort": "389",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "3389",
+            "ToPort": "3389",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "443",
+            "ToPort": "443",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "icmp",
+            "FromPort": "-1",
+            "ToPort": "-1",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "5985",
+            "ToPort": "5985",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "9000",
+            "ToPort": "9000",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8000",
+            "ToPort": "8000",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "22",
+            "ToPort": "22",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "10000",
+            "ToPort": "10003",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "8089",
+            "ToPort": "8089",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "7080",
+            "ToPort": "7080",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "5986",
+            "ToPort": "5986",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "3269",
+            "ToPort": "3269",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "9997",
+            "ToPort": "9997",
+            "CidrIp": "10.0.0.0/8"
+          },
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "1337",
+            "ToPort": "1337",
+            "CidrIp": "10.0.0.0/8"
+          }
+        ]
+      }
+    },
+    "ChefServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.large",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "chefserver01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.11",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "AutomateServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.large",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "chefautomate01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.12",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "DeliverySupermarket": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.large",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "chefsupermarket01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.19",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "ChefCompliance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "chefcompliance01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.20",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "ChefAnalytics": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.medium",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "chefanalytics01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.21",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Jenkins": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "jenkins01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.22",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Splunk": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "m4.large",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "splunk01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.23",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Build01": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "buildnode01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.13",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Build02": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "buildnode02"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.14",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Build03": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "buildnode03"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.18",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "WorkStation": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "workstation01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.24",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Acceptance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "acceptance01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.15",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Union": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "union01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.25",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Rehearsal": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "rehearsal01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.16",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    },
+    "Delivered": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "InstanceType": "t2.small",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "delivered01"
+          }
+        ],
+        "NetworkInterfaces": [
+          {
+            "GroupSet": [
+              {
+                "Ref": "DeliverySecGroup"
+              }
+            ],
+            "AssociatePublicIpAddress": "true",
+            "PrivateIpAddress": "10.0.0.17",
+            "DeviceIndex": "0",
+            "DeleteOnTermination": "true",
+            "SubnetId": {
+              "Ref": "Subnet"
+            }
+          }
+        ],
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": "ami-6d1c2007"
+      }
+    }
+  },
+  "Outputs": {
+    "ChefServerPubIP": {
+      "Description": "Public IP address of the Chef server",
+      "Value": {
+        "Fn::GetAtt": [
+          "ChefServer",
+          "PublicIp"
+        ]
+      }
+    },
+    "DeliveryServerPubIP": {
+      "Description": "Public IP address of the Delivery server",
+      "Value": {
+        "Fn::GetAtt": [
+          "AutomateServer",
+          "PublicIp"
+        ]
+      }
+    },
+    "Build01PubIP": {
+      "Description": "Public IP address of build node 1",
+      "Value": {
+        "Fn::GetAtt": [
+          "Build01",
+          "PublicIp"
+        ]
+      }
+    },
+    "Build02PubIP": {
+      "Description": "Public IP address of build node 2",
+      "Value": {
+        "Fn::GetAtt": [
+          "Build02",
+          "PublicIp"
+        ]
+      }
+    },
+    "Build03PubIP": {
+      "Description": "Public IP address of build node 3",
+      "Value": {
+        "Fn::GetAtt": [
+          "Build03",
+          "PublicIp"
+        ]
+      }
+    },
+    "WorkStation01PubIP": {
+      "Description": "Public IP address of workstation",
+      "Value": {
+        "Fn::GetAtt": [
+          "WorkStation",
+          "PublicIp"
+        ]
+      }
+    },
+    "AcceptancePubIP": {
+      "Description": "Public IP address of the Acceptance environment",
+      "Value": {
+        "Fn::GetAtt": [
+          "Acceptance",
+          "PublicIp"
+        ]
+      }
+    }
+  }
+}
