@@ -1,0 +1,37 @@
+---
+  - hosts: chefserver
+    tasks:
+     - name: get chef server packages
+       get_url: url=https://packages.chef.io/stable/el/7/chef-server-core-12.8.0-1.el7.x86_64.rpm dest=/root/
+
+     - name: install chef server package
+       yum: name=/root/chef-server-core-12.8.0-1.el7.x86_64.rpm  state=present
+
+     - name: get push jobs server packages
+       get_url: url=https://packages.chef.io/stable/el/7/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm dest=/root/
+
+     - name: install push jobs server packages
+       yum: name=/root/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm state=present
+
+     - name: reconfigure chef server
+       command: chef-server-ctl reconfigure
+
+     - name: create an admin account
+       shell: chef-server-ctl user-create chefroot Charlie Root noemail@li9.com 'PASSWORD' --filename  /root/chefroot.pem
+
+     - name: create an organiztion
+       shell: chef-server-ctl org-create demoorg 'Demo Organization' --association_user chefroot --filename /root/demoorg-validator.pem
+
+     - name: reconfigure chef server
+       command: chef-server-ctl reconfigure
+
+     - name: reconfigure push jobs server
+       command: opscode-push-jobs-server-ctl reconfigure
+
+     - name: create delivery user (for Chef Automate)
+       shell: chef-server-ctl user-create delivery Chef Automate noemail@li9.com 'PASSWORD' --filename /root/delivery.pem
+
+     - name: create automate organization
+       shell: chef-server-ctl org-create autoorg 'Automate Organuzation'  --filename /root/autoorg-validator.pem -a delivery
+
+
