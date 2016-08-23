@@ -1,0 +1,15 @@
+10.0.0.11 chefserver01.example.com            chefserver01
+10.0.0.12 deliveryserver01.example.com        deliveryserver01
+10.0.0.19 chefsupermarket01.example.com       chefsupermarket01
+10.0.0.20 chefcompliance01.example.com        chefcompliance01
+10.0.0.21 chefanalytics01.example.com         chefanalytics01
+10.0.0.22 jenkins01.example.com               jenkins01
+10.0.0.23 splunk01.example.com                splunk01
+10.0.0.13 buildnode01.example.com             buildnode01
+10.0.0.14 buildnode02.example.com             buildnode02
+10.0.0.18 buildnode03.example.com             buildnode03
+10.0.0.15 acceptance01.example.com            acceptance01
+10.0.0.16 rehearsal01.example.com             rehearsal01
+10.0.0.17 delivered01.example.com             delivered01
+10.0.0.24 workstation01.example.com           workstation01
+
