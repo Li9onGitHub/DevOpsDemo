@@ -13,13 +13,19 @@
       - tcpdump
       - bind-utils
       - net-tools
-      - git
+      - chrony
 
   - name: Disable SELinux
     selinux: policy=targeted state=permissive
-  
+
   - name: copy /etc/hosts
     copy: dest=/etc/hosts src=files/hosts
-  
+
   - name: Configure static hostname
-    hostname: name={{ hostname }} 
+    hostname: name={{ hostname }}
+
+#  - name: Configure timezone America/Phoenix
+#    : name=America/Phoenix
+
+  - name: Configure time syncronization
+    service: name=chronyd state=restarted enabled=true
