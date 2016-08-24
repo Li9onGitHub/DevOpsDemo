@@ -1,7 +1,7 @@
 #!/bin/bash
 # this script prepares ansible server to deploy the infrastructure
 
-yum -y instal epel-release -y
+yum -y install  epel-release -y
 yum -y install git ansible -y
 cd /root
 git clone https://github.com/Li9onGitHub/DevOpsDemo.git
