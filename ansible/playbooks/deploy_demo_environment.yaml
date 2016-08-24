@@ -1,0 +1,6 @@
+---
+  - include: prepare_servers.yaml
+  - include: chefserver.yaml
+  - include: workstation.yaml
+  - include: chefcompliance.yaml
+  - include: chefautomate.yaml
