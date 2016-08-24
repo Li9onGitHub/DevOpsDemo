@@ -40,7 +40,7 @@
        command: opscode-push-jobs-server-ctl reconfigure
 
      - name: create delivery user (for Chef Automate)
-       shell: chef-server-ctl user-create delivery Chef Automate noemail@li9.com 'PASSWORD' --filename /root/delivery.pem
+       shell: chef-server-ctl user-create delivery Chef Automate noemaialdelivery@li9.com 'PASSWORD' --filename /root/delivery.pem
        register: results
        failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
 
@@ -48,5 +48,14 @@
        shell: chef-server-ctl org-create autoorg 'Automate Organization'  --filename /root/autoorg-validator.pem -a delivery
        register: results
        failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
+
+     - name: fetch key files
+       fetch: src=/root/{{ item }} dest=/root/ flat=yes fail_on_missing=yes
+       with_items:
+         - chefroot.pem
+         - demoorg-validator.pem
+         - autoorg-validator.pem
+         - delivery.pem
+
 
 

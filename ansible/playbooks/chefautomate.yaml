@@ -7,4 +7,12 @@
      - name: install chef automate package
        yum: name=/root/delivery-0.5.125-1.el7.x86_64.rpm  state=present
 
-#     - name: copy chef automate license file
+     - name: copy chef automate license file
+       copy: src=/etc/ansible/license/automate.license dest=/root/
+     
+     - name: copy delivery user key file
+       copy: src=/root/delivery.pem dest=/root/
+
+     - name: setup chef automate
+       shell: delivery-ctl setup --license /root/automate.license  --key /root/delivery.pem --server-url https://chefserver01.example.com/organizations/autoorg --fqdn chefautomate01.example.com --enterprise demoent  --configure --no-build-node
+       register: results
