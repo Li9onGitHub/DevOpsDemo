@@ -21,6 +21,8 @@
 [chefserver]
 10.0.0.11
 
+[chefautomate]
+10.0.0.12
 
 [demoservers:vars]
 ansible_user=centos

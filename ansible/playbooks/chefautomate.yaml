@@ -1,0 +1,10 @@
+---
+  - hosts: chefautomate
+    tasks:
+     - name: get chef automate packages
+       get_url: url=https://packages.chef.io/stable/el/7/delivery-0.5.125-1.el7.x86_64.rpm  dest=/root/
+
+     - name: install chef automate package
+       yum: name=/root/delivery-0.5.125-1.el7.x86_64.rpm  state=present
+
+#     - name: copy chef automate license file
