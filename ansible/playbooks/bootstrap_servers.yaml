@@ -1,0 +1,13 @@
+---
+  - hosts: workstation
+    tasks:
+
+     - name: bootstrap servers
+       shell: cd /root/chef-repo; knife bootstrap {{ item }}.example.com -N {{ item }}  -x centos -i /etc/ansible/keys/devops.key --sudo
+       with_items:
+         - workstation01
+         - chefcompliance01
+         - chefserver01
+         - chefautomate01
+         - jenkins01
+         - splunk01
