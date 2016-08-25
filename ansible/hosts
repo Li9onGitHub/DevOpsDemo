@@ -1,4 +1,16 @@
-[demoservers]
+[apphosts]
+10.0.0.15 hostname=acceptance01.example.com
+10.0.0.25 hostname=union01.example.com
+10.0.0.16 hostname=rehearsal01.example.com
+10.0.0.17 hostname=delivered01.example.com
+
+[apphosts:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/etc/ansible/keys/devops.key
+ansible_become_user=root
+ansible_become=true
+
+[infrahosts]
 10.0.0.11 hostname=chefserver01.example.com
 10.0.0.12 hostname=chefautomate01.example.com
 10.0.0.19 hostname=chefsupermarket01.example.com
@@ -8,11 +20,14 @@
 10.0.0.13 hostname=buildnode01.example.com
 10.0.0.14 hostname=buildnode02.example.com
 10.0.0.18 hostname=buildnode03.example.com
-#10.0.0.15 hostname=acceptance01.example.com
-#10.0.0.25 hostname=union01.example.com
-#10.0.0.16 hostname=rehearsal01.example.com
-#10.0.0.17 hostname=delivered01.example.com
 10.0.0.24 hostname=workstation01.example.com
+
+[infrahosts:vars]
+ansible_user=centos
+ansible_ssh_private_key_file=/etc/ansible/keys/devops.key
+ansible_become_user=root
+ansible_become=true
+
 
 [workstation]
 10.0.0.24
@@ -26,8 +41,3 @@
 [chefcompliance]
 10.0.0.20
 
-[demoservers:vars]
-ansible_user=centos
-ansible_ssh_private_key_file=/etc/ansible/keys/devops.key
-ansible_become_user=root
-ansible_become=true
