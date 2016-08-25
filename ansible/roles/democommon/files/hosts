@@ -5,7 +5,6 @@
 10.0.0.12 chefautomate01.example.com          chefautomate01
 10.0.0.19 chefsupermarket01.example.com       chefsupermarket01
 10.0.0.20 chefcompliance01.example.com        chefcompliance01
-10.0.0.21 chefanalytics01.example.com         chefanalytics01
 10.0.0.22 jenkins01.example.com               jenkins01
 10.0.0.23 splunk01.example.com                splunk01
 10.0.0.13 buildnode01.example.com             buildnode01
