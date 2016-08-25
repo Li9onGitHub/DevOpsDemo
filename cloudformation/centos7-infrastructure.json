@@ -606,38 +606,6 @@
         "ImageId": "ami-6d1c2007"
       }
     },
-    "ChefAnalytics": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "t2.medium",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "chefanalytics01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.21",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": "ami-6d1c2007"
-      }
-    },
     "Jenkins": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -673,7 +641,7 @@
     "Splunk": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m4.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -719,7 +687,7 @@
                 "Ref": "DeliverySecGroup"
               }
             ],
-            "AssociatePublicIpAddress": "true",
+            "AssociatePublicIpAddress": "false",
             "PrivateIpAddress": "10.0.0.13",
             "DeviceIndex": "0",
             "DeleteOnTermination": "true",
@@ -751,7 +719,7 @@
                 "Ref": "DeliverySecGroup"
               }
             ],
-            "AssociatePublicIpAddress": "true",
+            "AssociatePublicIpAddress": "false",
             "PrivateIpAddress": "10.0.0.14",
             "DeviceIndex": "0",
             "DeleteOnTermination": "true",
@@ -783,7 +751,7 @@
                 "Ref": "DeliverySecGroup"
               }
             ],
-            "AssociatePublicIpAddress": "true",
+            "AssociatePublicIpAddress": "false",
             "PrivateIpAddress": "10.0.0.18",
             "DeviceIndex": "0",
             "DeleteOnTermination": "true",
@@ -974,33 +942,6 @@
       "Value": {
         "Fn::GetAtt": [
           "AutomateServer",
-          "PublicIp"
-        ]
-      }
-    },
-    "Build01PubIP": {
-      "Description": "Public IP address of build node 1",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build01",
-          "PublicIp"
-        ]
-      }
-    },
-    "Build02PubIP": {
-      "Description": "Public IP address of build node 2",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build02",
-          "PublicIp"
-        ]
-      }
-    },
-    "Build03PubIP": {
-      "Description": "Public IP address of build node 3",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build03",
           "PublicIp"
         ]
       }
