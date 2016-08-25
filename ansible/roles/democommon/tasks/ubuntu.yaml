@@ -1,0 +1,17 @@
+---
+  - name: ubuntu - Update packages
+    apt: upgrade=dist
+
+  - name: ubuntu - Install additional packages
+    apt: name={{item}} state=present
+    with_items:
+       - wget
+       - tcpdump
+       - net-tools
+       - chrony
+
+#  - name: Configure timezone America/Phoenix
+#    : name=America/Phoenix
+
+  - name: ubuntu - Configure time syncronization
+    service: name=chrony state=restarted enabled=true

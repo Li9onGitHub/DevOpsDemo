@@ -1,0 +1,25 @@
+---
+
+#  - name: Update packages
+#    yum: name=* state=latest
+
+  - name: centos - Setup epel-repository
+    yum: name=epel-release state=present
+
+  - name: centos - Install additional packages
+    yum: name={{item}} state=present
+    with_items:
+      - wget
+      - tcpdump
+      - bind-utils
+      - net-tools
+      - chrony
+
+  - name: centos - Disable SELinux
+    selinux: policy=targeted state=permissive
+
+#  - name: Configure timezone America/Phoenix
+#    : name=America/Phoenix
+
+  - name: centos - Configure time syncronization
+    service: name=chronyd state=restarted enabled=true

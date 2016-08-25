@@ -8,10 +8,10 @@
 10.0.0.13 hostname=buildnode01.example.com
 10.0.0.14 hostname=buildnode02.example.com
 10.0.0.18 hostname=buildnode03.example.com
-10.0.0.15 hostname=acceptance01.example.com
-10.0.0.25 hostname=union01.example.com
-10.0.0.16 hostname=rehearsal01.example.com
-10.0.0.17 hostname=delivered01.example.com
+#10.0.0.15 hostname=acceptance01.example.com
+#10.0.0.25 hostname=union01.example.com
+#10.0.0.16 hostname=rehearsal01.example.com
+#10.0.0.17 hostname=delivered01.example.com
 10.0.0.24 hostname=workstation01.example.com
 
 [workstation]

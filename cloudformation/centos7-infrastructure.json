@@ -827,7 +827,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Union": {
@@ -859,7 +859,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Rehearsal": {
@@ -891,7 +891,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Delivered": {
@@ -923,7 +923,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": "ami-2d39803a"
       }
     }
   },
