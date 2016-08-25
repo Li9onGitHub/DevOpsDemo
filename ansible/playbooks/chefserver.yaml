@@ -13,15 +13,14 @@
      - name: install push jobs server packages
        yum: name=/root/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm state=present
 
-#     - name: install chef management console
-#       shell:  chef-server-ctl install chef-manage
+     - name: install chef management console
+       shell:  chef-server-ctl install chef-manage
 
      - name: reconfigure chef server
        command: chef-server-ctl reconfigure
 
-# it is required to accept the license
-#     - name: reconfigure chef management
-#       command: chef-manage-ctl reconfigure
+     - name: reconfigure chef management console
+       command: chef-manage-ctl reconfigure --accept-license
 
      - name: create an admin account
        shell: chef-server-ctl user-create chefroot Charlie Root noemail@li9.com 'PASSWORD' --filename  /root/chefroot.pem
@@ -56,6 +55,4 @@
          - demoorg-validator.pem
          - autoorg-validator.pem
          - delivery.pem
-
-
 
