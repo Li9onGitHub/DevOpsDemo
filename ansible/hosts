@@ -3,7 +3,6 @@
 10.0.0.12 hostname=chefautomate01.example.com
 10.0.0.19 hostname=chefsupermarket01.example.com
 10.0.0.20 hostname=chefcompliance01.example.com
-10.0.0.21 hostname=chefanalytics01.example.com
 10.0.0.22 hostname=jenkins01.example.com
 10.0.0.23 hostname=splunk01.example.com
 10.0.0.13 hostname=buildnode01.example.com
