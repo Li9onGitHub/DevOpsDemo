@@ -1,0 +1,24 @@
+---
+  - hosts: workstation
+    tasks:
+
+     - name: the chef generate app command
+       shell: chef generate app  chef-{{ org }}
+
+     - name: create .chef directory
+       file: path=~/chef-{{ org }}/.chef state=directory mode=0755
+
+     - name: adding .chef to gitignore
+       shell: echo '.chef' >> ~/chef-{{ org }}/.gitignore
+
+     - name: copy pem files
+       copy: src=/root/{{ item }} dest=/root/chef-{{ org }}/.chef/
+       with_items:
+         - "{{ orguser }}.pem"
+         - "{{ org }}-validator.pem"
+
+     - name: install knife.rb
+       template: src=/etc/ansible/files/knife.rb dest=/root/chef-{{ org }}/.chef/
+
+     - name: configure ssl
+       shell: cd /root/chef-{{ org }}/; knife ssl fetch

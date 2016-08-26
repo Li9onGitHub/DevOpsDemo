@@ -9,14 +9,14 @@
 
      - name: reconfigure chef compliance
        command: chef-compliance-ctl reconfigure --accept-license
-   
+
      - name: integration -  configure compliance
        shell: chef-compliance-ctl connect chef-server --non-interactive true --chef-app-id 'compliance_server' --auth-id 'Chef Server' --insecure true --compliance-url 'https://chefcompliance01.example.com'|grep ^CHEF_APP_ID
        register: results
 
      - name: save output to /root/compliance_chef_app_id.sh
        local_action: copy content="{{ results.stdout }}" dest=/root/compliance_chef_app_id.sh
-     
+
      - name: reconfigure chef compliance
        command: chef-compliance-ctl reconfigure
 
@@ -34,7 +34,7 @@
 
      - name: save output to /root/compliance_auth_add.sh
        local_action: copy content="{{ results.stdout }}" dest=/root/compliance_auth_add.sh
-  
+
   - hosts: chefcompliance
     tasks:
 

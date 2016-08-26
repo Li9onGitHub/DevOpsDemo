@@ -1,0 +1,12 @@
+current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                '{{ orguser }}'
+client_key               "#{current_dir}/{{ orguser}}.pem"
+#validation_client_name   'chef-validator'
+validation_client_name   '{{ org }}-validator'
+validation_key           "#{current_dir}/{{ org }}-validator.pem"
+chef_server_url          'https://chefserver01.example.com/organizations/{{ org }}'
+cache_type               'BasicFile'
+cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
+cookbook_path            ["#{current_dir}/../cookbooks"]

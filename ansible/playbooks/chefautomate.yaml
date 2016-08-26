@@ -14,7 +14,7 @@
        copy: src=/root/delivery.pem dest=/root/
 
      - name: setup chef automate
-       shell: delivery-ctl setup --license /root/automate.license  --key /root/delivery.pem --server-url https://chefserver01.example.com/organizations/autoorg --fqdn chefautomate01.example.com --enterprise demoent  --configure --no-build-node
+       command: delivery-ctl setup --license /root/automate.license  --key /root/delivery.pem --server-url https://chefserver01.example.com/organizations/autoorg --fqdn chefautomate01.example.com --enterprise demoent  --configure --no-build-node
        register: results
 
      - name: save results to /root/automate_cred.txt 
@@ -26,12 +26,10 @@
      - name: copy private key for the environment
        copy: src=/etc/ansible/keys/devops.key dest=/root/
 
-     - name: install buildnode1
-       shell: delivery-ctl install-build-node --fqdn buildnode01.example.com --username centos --password none --installer /root/chefdk-0.17.17-1.el7.x86_64.rpm --ssh-identity-file /root/devops.key --port 22
-
-     - name: install buildnode2
-       shell: delivery-ctl install-build-node --fqdn buildnode02.example.com --username centos --password none --installer /root/chefdk-0.17.17-1.el7.x86_64.rpm --ssh-identity-file /root/devops.key --port 22
-
-     - name: install buildnode3
-       shell: delivery-ctl install-build-node --fqdn buildnode03.example.com --username centos --password none --installer /root/chefdk-0.17.17-1.el7.x86_64.rpm --ssh-identity-file /root/devops.key --port 22
+     - name: install buildnodes
+       command: delivery-ctl install-build-node --fqdn {{ item }}.example.com --username centos --password none --installer /root/chefdk-0.17.17-1.el7.x86_64.rpm --ssh-identity-file /root/devops.key --port 22
+       with_items:
+         - buildnode01
+         - buildnode02
+         - buildnode03
 

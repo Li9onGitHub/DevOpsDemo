@@ -22,27 +22,27 @@
      - name: reconfigure chef management console
        command: chef-manage-ctl reconfigure --accept-license
 
+     - name: reconfigure push jobs server
+       command: opscode-push-jobs-server-ctl reconfigure
+
      - name: create an admin account
-       shell: chef-server-ctl user-create chefroot Charlie Root noemail@li9.com 'PASSWORD' --filename  /root/chefroot.pem
+       shell: chef-server-ctl user-create chefroot Charlie Root chefroot@example.com 'PASSWORD' --filename  /root/chefroot.pem
+       register: results
+       failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
+
+     - name: create delivery user (for Chef Automate)
+       shell: chef-server-ctl user-create delivery Chef Automate delivery@example.com 'PASSWORD' --filename /root/delivery.pem
        register: results
        failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
 
      - name: grant server admin permissions to chefroot user
        shell: chef-server-ctl grant-server-admin-permissions chefroot
 
+     - name: grant server admin permissions to delivery user
+       shell: chef-server-ctl grant-server-admin-permissions delivery
+
      - name: create an organiztion
        shell: chef-server-ctl org-create demoorg 'Demo Organization' --association_user chefroot --filename /root/demoorg-validator.pem
-       register: results
-       failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
-
-     - name: reconfigure chef server
-       command: chef-server-ctl reconfigure
-
-     - name: reconfigure push jobs server
-       command: opscode-push-jobs-server-ctl reconfigure
-
-     - name: create delivery user (for Chef Automate)
-       shell: chef-server-ctl user-create delivery Chef Automate noemaialdelivery@li9.com 'PASSWORD' --filename /root/delivery.pem
        register: results
        failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
 

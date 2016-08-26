@@ -20,32 +20,10 @@
   - hosts: chefserver
     tasks:
 
-     - name: get chefroot user key
+     - name: get key files - org validators and user keys
        fetch: src=/root/{{ item }} dest=/root/ flat=yes fail_on_missing=yes
        with_items:
          - chefroot.pem
+         - delivery.pem
          - demoorg-validator.pem
-
-  - hosts: workstation
-    tasks:
-
-     - name: the chef generate app command 
-       shell: chef generate app  chef-repo
-
-     - name: create .chef directory
-       file: path=~/chef-repo/.chef state=directory mode=0755
-
-     - name: adding .chef to gitignore
-       shell: echo '.chef' >> ~/chef-repo/.gitignore
-
-     - name: copy pem files
-       copy: src=/root/{{ item }} dest=/root/chef-repo/.chef/
-       with_items:
-         - chefroot.pem
-         - demoorg-validator.pem
-
-     - name: copy knife.rb
-       copy: src=/etc/ansible/files/knife.rb dest=/root/chef-repo/.chef/
-
-     - name: configure ssl
-       shell: cd /root/chef-repo/; knife ssl fetch
+         - autoorg-validator.pem

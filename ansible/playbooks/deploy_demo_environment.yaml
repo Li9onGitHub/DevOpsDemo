@@ -1,7 +1,14 @@
 ---
   - include: prepare_servers.yaml
   - include: chefserver.yaml
+
+
   - include: workstation.yaml
+  - name: configure chef repo for demoorg
+    include: chefrepo.yaml org=demoorg orguser=chefroot
+  - name: configure chef repo for autoorg
+    include: chefrepo.yaml org=autoorg orguser=delivery
+
   - include: chefcompliance.yaml
   - include: chefautomate.yaml
   - include: bootstrap_chef_nodes.yaml
