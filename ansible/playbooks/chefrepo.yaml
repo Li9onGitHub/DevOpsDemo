@@ -8,6 +8,9 @@
      - name: create .chef directory
        file: path=~/chef-{{ org }}/.chef state=directory mode=0755
 
+     - name: create cookbooks directory
+       file: path=~/chef-{{ org }}/cookbooks state=directory mode=0755
+
      - name: adding .chef to gitignore
        shell: echo '.chef' >> ~/chef-{{ org }}/.gitignore
 
