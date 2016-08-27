@@ -1,0 +1,29 @@
+---
+  - name: get chef server package
+    get_url: url={{ server_core_url }} dest=/tmp/chef-server-core.rpm
+
+  - name: get push jobs server packages
+    get_url: url={{ push_jobs_server_url }} dest=/tmp/push-jobs-server.rpm
+    when: push_jobs
+
+  - name: install chef server and push jobs server packags
+    yum: name=/tmp/chef-server-core.rpm  state=present
+
+  - name: install push jobs server packages
+    yum: name=/tmp/push-jobs-server.rpm state=present
+    when: push_jobs
+
+  - name: install chef management console
+    command: chef-server-ctl install chef-manage
+    when: management_console
+
+  - name: reconfigure chef server
+    command: chef-server-ctl reconfigure
+
+  - name: reconfigure chef management console
+    command: chef-manage-ctl reconfigure --accept-license
+    when: management_console
+
+  - name: reconfigure push jobs server
+    command: opscode-push-jobs-server-ctl reconfigure
+    when: push_jobs

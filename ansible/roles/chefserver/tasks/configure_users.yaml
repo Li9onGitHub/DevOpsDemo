@@ -1,0 +1,16 @@
+---
+
+  - name: creates users
+    command: chef-server-ctl user-create {{ item.key }} {{ item.value.firstname }} {{ item.value.lastname }} {{ item.value.email }} '{{ item.value.pass }}' --filename  {{ exportdir }}/{{ item.key }}.pem
+    with_dict: "{{users}}"
+    register: results
+    failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
+
+  - name: grant server admin permissions to users
+    command: chef-server-ctl grant-server-admin-permissions  {{ item.key }}
+    with_dict: "{{users}}"
+
+  - name: fetch user key files
+    fetch: src={{ exportdir }}/{{ item.key }}.pem  dest={{ importdir }}/ flat=yes fail_on_missing=yes
+    with_dict: "{{users}}"
+

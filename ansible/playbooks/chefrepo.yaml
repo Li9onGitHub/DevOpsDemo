@@ -21,7 +21,7 @@
          - "{{ org }}-validator.pem"
 
      - name: install knife.rb
-       template: src=/etc/ansible/files/knife.rb dest=/root/chef-{{ org }}/.chef/
+       template: src=/etc/ansible/templates/knife.rb.j2 dest=/root/chef-{{ org }}/.chef/knife.rb
 
      - name: configure ssl
        shell: cd /root/chef-{{ org }}/; knife ssl fetch

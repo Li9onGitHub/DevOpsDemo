@@ -542,38 +542,6 @@
         "ImageId": "ami-6d1c2007"
       }
     },
-    "DeliverySupermarket": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "t2.large",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "chefsupermarket01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.19",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": "ami-6d1c2007"
-      }
-    },
     "ChefCompliance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {

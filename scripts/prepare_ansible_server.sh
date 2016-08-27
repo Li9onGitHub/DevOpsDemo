@@ -5,9 +5,12 @@ yum -y install  epel-release -y
 yum -y install git ansible wget -y
 cd /root
 git clone https://github.com/Li9onGitHub/DevOpsDemo.git
+rm -rf /etc/ansible/*
 cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/
 mkdir /etc/ansible/keys
 mkdir /etc/ansible/license
+
+
 echo "!!!!NOTE!!!"
 echo "Before you begin you must:"
 echo
