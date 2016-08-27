@@ -6,7 +6,7 @@
 # exportdir - a directory on chef server where user and org keys will be stored
 # importdir - a directory on ansible server where the keys will be copied
    exportdir: /keys
-   importdir: /keys
+   importdir: /etc/ansible/files/keys
 
 # Users to be added
    users:

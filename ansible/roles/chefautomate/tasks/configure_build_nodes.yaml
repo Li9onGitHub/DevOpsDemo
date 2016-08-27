@@ -1,0 +1,11 @@
+---
+
+  - name: get chefdk package
+    get_url: url={{ chedk_url }} dest=/tmp/chefdk.rpm
+
+  - name: copy private key for the environment
+    copy: src=/etc/ansible/keys/devops.key dest=/root/
+
+  - name: configure  buildnodes
+    command: delivery-ctl install-build-node --fqdn {{ item }} --username centos --password none --installer /tmp/chefdk.rpm --ssh-identity-file /root/devops.key --port 22
+    with_items: "{{ buildnodes }}"

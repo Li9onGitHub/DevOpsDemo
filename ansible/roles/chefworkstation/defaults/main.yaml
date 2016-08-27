@@ -6,10 +6,10 @@
     chef-repo1:
       org: exampleinc
       user: delivery
-      userkey: /keys/delivery.pem
-      orgkey: /keys/exampleinc-validator.pem    
+      userkey: /etc/ansible/files/keys/delivery.pem
+      orgkey: /etc/ansible/files/keys/exampleinc-validator.pem    
     chef-repo2:
       org: exampleorg
       user: root
-      userkey: /keys/root.pem
-      orgkey: /keys/exampleorg-validator.pem   
+      userkey: /etc/ansible/files/keys/root.pem
+      orgkey: /etc/ansible/files/keys/exampleorg-validator.pem   

@@ -1,0 +1,18 @@
+---
+  automate_url: https://packages.chef.io/stable/el/7/delivery-0.5.125-1.el7.x86_64.rpm
+  chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm
+  chef_server_address: chefserver01.example.com
+  fqdn: chefautomate01.example.com
+  
+  # license_file should be on ansible server
+  license_file: /etc/ansible/files/automate.license
+  
+  # delivery_user_key_file should be on ansible server
+  delivery_user_key_file: /etc/ansible/files/keys/delivery.pem
+
+  delivery_org: exampleinc
+  delivery_enterprise: demoent
+  buildnodes:
+    - buildnode01.example.com
+    - buildnode02.example.com
+    - buildnode03.example.com

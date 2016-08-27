@@ -1,0 +1,3 @@
+---
+   - include: install_and_configure.yaml
+   - include: configure_build_nodes.yaml

@@ -1,0 +1,20 @@
+---
+  - name: get chef automate packages
+    get_url: url={{ automate_url }}  dest=/tmp/automate.rpm
+
+  - name: install chef automate package
+    yum: name=/automate.rpm  state=present
+
+  - name: copy chef automate license file
+    copy: src={{ license_file }} dest=/root/automate.license
+
+  - name: copy delivery user key file
+    copy: src={{ delivery_user_key_file }} dest=/root/delivery.pem
+
+  - name: setup chef automate
+    command: delivery-ctl setup --license /root/automate.license  --key /root/delivery.pem --server-url https://{{ chef_server_address }}/organizations/{{ delivery_org }} --fqdn {{ fqdn }} --enterprise {{ delivery_enterprise }}  --configure --no-build-node
+    register: results
+
+  - name: save results to /root/automate_cred.txt
+    local_action: copy content="{{ results.stdout }}" dest=/root/automate_cred.txt
+
