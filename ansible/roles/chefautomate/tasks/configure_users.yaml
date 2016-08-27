@@ -1,0 +1,5 @@
+---
+  - name: creates automate users
+    command: delivery-ctl create-user  {{ delivery_enterprise }} {{ item.key }} --password  {{ item.value.pass }} --roles "{{ item.value.roles }}"
+    with_dict: "{{users}}"
+

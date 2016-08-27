@@ -1,7 +1,7 @@
 ---
 
   - name: get chefdk package
-    get_url: url={{ chedk_url }} dest=/tmp/chefdk.rpm
+    get_url: url={{ chefdk_url }} dest=/tmp/chefdk.rpm
 
   - name: copy private key for the environment
     copy: src=/etc/ansible/keys/devops.key dest=/root/

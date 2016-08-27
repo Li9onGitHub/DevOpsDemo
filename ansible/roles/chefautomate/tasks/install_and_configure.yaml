@@ -3,7 +3,7 @@
     get_url: url={{ automate_url }}  dest=/tmp/automate.rpm
 
   - name: install chef automate package
-    yum: name=/automate.rpm  state=present
+    yum: name=/tmp/automate.rpm  state=present
 
   - name: copy chef automate license file
     copy: src={{ license_file }} dest=/root/automate.license
