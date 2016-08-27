@@ -1,0 +1,13 @@
+---
+  chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm
+  repos:
+    chef-repo1:
+      org: exampleinc
+      user: root
+      userkey: /keys/root.pem
+      orgkey: /keys/exampleinc-validator.pem    
+    chef-repo2:
+      org: exampleorg
+      user: delivery
+      userkey: /keys/delivery.pem
+      orgkey: /keys/exampleorg-validator.pem   

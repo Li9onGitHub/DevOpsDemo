@@ -1,0 +1,25 @@
+---
+
+  - name: generate repo directory
+    shell: chef generate app  {{ dir }}
+
+  - name: create .chef directory
+    file: path=~/{{ dir }}/.chef state=directory mode=0755
+
+  - name: create cookbooks directory
+    file: path=~/{{ dir }}/cookbooks state=directory mode=0755
+
+  - name: add .chef to gitignore
+    shell: echo '.chef' >> ~/{{ dir }}/.gitignore
+
+  - name: copy user key file
+    copy: src={{ userkey }} dest=~/{{ dir }}/.chef/
+
+  - name: copy org key file
+    copy: src={{ orgkey }} dest=~/{{ dir }}/.chef/
+
+  - name: install knife.rb
+    template: src=templates/knife.rb.j2 dest=~/{{ dir }}/.chef/knife.rb
+
+  - name: configure ssl
+    shell: cd ~/{{ dir }} ; knife ssl fetch

@@ -1,0 +1,9 @@
+---
+  - include: install_and_configure.yaml
+    tags:
+      - install
+
+  - include: chefrepo.yaml dir={{ item.key }} org={{ item.value.org }} user={{ item.value.user }} userkey={{ item.value.userkey }} orgkey={{ item.value.orgkey }}
+    with_dict: "{{repos}}"
+    tags:
+      - repo
