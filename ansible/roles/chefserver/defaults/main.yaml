@@ -15,8 +15,8 @@
        pass: PASSWORD
        firstname: Chef
        lastname: Automate
-     root:
-       email: root@example.com
+     chefroot:
+       email: chefroot@example.com
        pass: PASSWORD
        firstname: Chef
        lastname: Admin
@@ -25,7 +25,7 @@
    orgs:
      exampleorg:
        name: Example Org
-       user: root
+       user: chefroot
      exampleinc:
        name: Example Inc
        user: delivery

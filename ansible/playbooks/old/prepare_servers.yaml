@@ -1,3 +1,0 @@
-   - hosts: infrahosts,apphosts
-     roles:
-        - { role: democommon }

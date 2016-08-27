@@ -18,7 +18,7 @@
     - buildnode03.example.com
 
   users:
-    root:
+    chefroot:
       pass: PASSWORD
       roles: admin,committer,reviewer,shipper,observer
     manager:
