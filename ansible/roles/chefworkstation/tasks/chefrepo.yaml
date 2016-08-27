@@ -4,22 +4,26 @@
     shell: chef generate app  {{ dir }}
 
   - name: create .chef directory
-    file: path=~/{{ dir }}/.chef state=directory mode=0755
+    file: path=~{{ os_user }}/{{ dir }}/.chef state=directory mode=0755
 
   - name: create cookbooks directory
-    file: path=~/{{ dir }}/cookbooks state=directory mode=0755
+    file: path=~{{ os_user }}/{{ dir }}/cookbooks state=directory mode=0755
 
   - name: add .chef to gitignore
-    shell: echo '.chef' >> ~/{{ dir }}/.gitignore
+    shell: echo '.chef' >> ~{{ os_user }}/{{ dir }}/.gitignore
 
   - name: copy user key file
-    copy: src={{ userkey }} dest=~/{{ dir }}/.chef/
+    copy: src={{ userkey }} dest=~{{ os_user }}/{{ dir }}/.chef/
 
   - name: copy org key file
-    copy: src={{ orgkey }} dest=~/{{ dir }}/.chef/
+    copy: src={{ orgkey }} dest=~{{ os_user }}/{{ dir }}/.chef/
 
   - name: install knife.rb
-    template: src=templates/knife.rb.j2 dest=~/{{ dir }}/.chef/knife.rb
+    template: src=templates/knife.rb.j2 dest=~{{ os_user }}/{{ dir }}/.chef/knife.rb
 
   - name: configure ssl
-    shell: cd ~/{{ dir }} ; knife ssl fetch
+    shell: cd ~{{ os_user }}/{{ dir }} ; knife ssl fetch
+
+  - name: change owner for chef repo directory
+    file: path=~{{ os_user }}/{{ dir }} owner={{ os_user }} recurse=yes
+
