@@ -1,0 +1,20 @@
+---
+  - hosts: infrahosts,apphosts
+    roles:
+      - democommon 
+
+  - hosts: chefserver
+    roles:
+      - chefserver
+
+  - hosts: chefworkstation
+    roles:
+      - chefworkstation
+
+  - hosts: chefautomate
+    roles:
+      - chefautomate
+
+  - hosts: chefcompliance
+    roles:
+      - chefcompliance
