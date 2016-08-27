@@ -1,0 +1,5 @@
+---
+  - include: install_and_configure.yaml
+
+  - include: chef_server_integration.yaml
+    when: enable_chef_server_integration
