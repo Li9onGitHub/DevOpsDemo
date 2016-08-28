@@ -251,9 +251,13 @@ workstation01
 
 
 ## Configure Chef Automate application
+### Environment
 The environment has 4 application nodes:
  - acceptance01
  - union01
  - rehearsal01
  - delivered01
+Chef Automate service was installed and configured but it still doesn't have any application to deploy. This requires to perform several activities to allow Chef Automate to deliver the application to your demo application services.
+### lamp
+There is a project https://github.com/Li9onGitHub/lamp which has a simple LAMP application for Ubuntu hosts. it is a demo application which can be controlled by Chef Automate. The automation process already uploaded this cookbook to Chef Server with all required dependencies.
 
