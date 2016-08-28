@@ -34,3 +34,18 @@ Chef Automate requires a license to install Chef Automate server. Please visit c
 8. Click "Next"
 9. On the "Options" page click "Next"
 10. On the "Review" page click "Create"
+
+The CloudFormation template installs the following servers:
+ - workstaion01 - it will be used as an ansible and chef workstaion host
+ - chefserver01 - Chef Servdr will be installed here
+ - chefautomate01 - Chef Automate service
+ - buildnode0{1..3} - Chef Automate build nodes
+ - acceptance01 - this server will be used as an acceptance host in Automate infrastrucure
+ - union01 - union host
+ - rehearsal01 - rehearsal host
+ - delivered01 - production host
+
+### Prepare ansible host
+1. 
+
+### Install and configure services
