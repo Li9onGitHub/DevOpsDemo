@@ -30,7 +30,7 @@
         command: delivery-ctl create-user demoent chefuser --password PASSWORD --roles "admin,observer,committer,reviewer,shipper" --ssh-pub-key-file=/root/chefuser_id_rsa.pub
 
 # Configure Chef Automate environments
-     - include: configure_automate_environment.yaml
+  - include: configure_automate_environment.yaml
 
 
 # Deploy Chef Compliance scanner
