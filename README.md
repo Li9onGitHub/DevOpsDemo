@@ -51,33 +51,32 @@ The CloudFormation template installs the following servers:
 ```
 sudo su -
 ```
-2. Install required software (git/ansible)
+3. Install required software (git/ansible)
 ```
 yum -y install  epel-release -y
 yum -y install git ansible ansible-lint wget vim -y
 ```
-3. Clone this repository to workstaion01
+4. Clone this repository to workstaion01
 ```
 cd /root
 git clone https://github.com/Li9onGitHub/DevOpsDemo.git
 ```
-4. Replace ansible configuration files
+5. Replace ansible configuration files
 ```
 rm -rf /etc/ansible/*
 cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/
 ```
-5. Prepare AWS Private Key and put in on workstaion
+6. Prepare AWS Private Key and put in on workstaion
 ```
 vi /etc/ansible/keys/devops.key
 ```
 Don't forget to paste key text to the file
-
-6. Change permissions to the key file
+7. Change permissions to the key file
 ```
 chmod 0600 /etc/ansible/keys/devops.key
 chown root /etc/ansible/keys/devops.key
 ```
-7. Check ansible connectivity
+8. Check ansible connectivity
 ```
 ansible -m ping all
 10.0.0.12 | SUCCESS => {
