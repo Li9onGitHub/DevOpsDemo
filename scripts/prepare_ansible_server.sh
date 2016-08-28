@@ -2,7 +2,7 @@
 # this script prepares ansible server to deploy the infrastructure
 
 yum -y install  epel-release -y
-yum -y install git ansible wget -y
+yum -y install git ansible ansible-lint wget vim -y
 cd /root
 git clone https://github.com/Li9onGitHub/DevOpsDemo.git
 rm -rf /etc/ansible/*
