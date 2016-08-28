@@ -148,3 +148,30 @@ It is enough to start installation process by running "ansible-playbook /etc/ans
 ansible-playbook /etc/ansible/playbooks/deploy.yaml
 ```
 The process will take ~ 30 mins
+
+## Outputs
+The automation gives the following default outputs:
+1. Chef Server
+ - Local hostname: chefserver01.example.com
+ - Local IP: 10.0.0.11
+ - User1: chefroot (with 'PASSWORD') which has admin privileges
+ - User2: delivery (with 'PASSWORD') which has admin privileges
+ - Organization1: exampleorg (chefroot is attached to that org)
+ - Organization2: exampleinc (delivery is attached to that org)
+ - More information: /etc/ansible/roles/chefserver/defaults/main.yaml
+2. Chef Workstaion
+ - Local hostname: workstaion01.example.com
+ - Local IP: 10.0.0.24
+ - ChefDK package is installed
+ - OS user: chefroot (you should use "su" to become chefuser)
+ - Chef repo1: /home/chefuser/chef-repo1 (it is linked with exampleinc and delivery user)
+ - Chef repo2: /home/chefuser/chef-repo2 (it is linked with exampleorg and chefroot user)
+ - Organization1: exampleorg (chefroot is attached to that org)
+ - Organization2: exampleinc (delivery is attached to that org)
+ - More information: /etc/ansible/roles/chefworkstaion/defaults/main.yaml
+3. Chef Compliance
+ - Local hostname: chefcompliance01.example.com
+ - Local IP: 10.0.0.20
+ - Chef Server integration is in place
+ - Please visit https://<PublicIP> to complete installation process
+4.
