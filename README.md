@@ -264,3 +264,46 @@ Source code providers for this demo:
 There is a project https://github.com/Li9onGitHub/lamp which has a simple LAMP application for Ubuntu hosts. it is a demo application which can be controlled by Chef Automate. The automation process already uploaded this cookbook to Chef Server with all required dependencies.
 
 ## Configure Chef Automate Application
+1. Visit https://chefautomate01.example.com and login using the following parametres:
+ - Enterprise: demoent
+ - Username: chefuser
+ - Password: PASSWORD
+2. On "Workflow -> Workflow Org" create a new "exampleinc" organization by "+NEW WORKFLOW ORG" 
+3. Connect to Chef Workstation using chefuser OS account 
+4. Ensure that lamp cookbook exists on Chef Server:
+```
+cd /home/chefuser/cher-repo1
+knife cookbook show lamp
+```
+5. Add lamp cookbook to runlist on all application nodes:
+```
+knife  node run_list add acceptance01 "recipe[lamp]"
+knife  node run_list add union01 "recipe[lamp]"
+knife  node run_list add rehearsal01 "recipe[lamp]"
+knife  node run_list add delivered01 "recipe[lamp]"
+```
+6. Apply lamp cookbook on all nodes by push jobs:
+```
+knife job start 'chef-client' --search 'recipes:delivery-base'
+```
+This will take some time to be completed
+7. Configure Chef Automate Client
+```
+delivery setup --server=chefautomate01.example.com --ent=demoent --org=exampleinc --user=chefuser
+```
+it will ask for chefuser password (type 'PASSWORD')
+8. Configure git idenity:
+```
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+```
+9. Clone the project
+```
+cd
+git clone https://github.com/Li9onGitHub/lamp.git
+```
+10. Init repository
+```
+delivery init
+```
+
