@@ -196,7 +196,6 @@ The automation gives the following default outputs:
    - union (union01 is attached)
    - rehearsal (rehearsal01 is attached)
    - delivered (delivered01 is attached)
-
 ## Check the installation
 1. Setup local name resolution (hosts file)
 There is no DNS service and to user sevices from internet it is required to change your local hosts file.
@@ -228,7 +227,6 @@ acceptance-demoent-exampleinc-lamp-master
 delivered
 rehearsal
 union
-
 $ knife  node list
 acceptance01
 buildnode01.example.com
@@ -250,14 +248,17 @@ workstation01
  - Use chefroot/PASSWORD or delivery/PASSWORD
 
 
-## Configure Chef Automate application
-### Environment
+# Configure Chef Automate application
+## Environment
 The environment has 4 application nodes:
  - acceptance01
  - union01
  - rehearsal01
  - delivered01
 Chef Automate service was installed and configured but it still doesn't have any application to deploy. This requires to perform several activities to allow Chef Automate to deliver the application to your demo application services.
-### lamp
+## lamp
 There is a project https://github.com/Li9onGitHub/lamp which has a simple LAMP application for Ubuntu hosts. it is a demo application which can be controlled by Chef Automate. The automation process already uploaded this cookbook to Chef Server with all required dependencies.
-
+## Source code providers for this demo
+ - local
+ - github
+## Configure Chef Automate for delivering lamp cookbook
