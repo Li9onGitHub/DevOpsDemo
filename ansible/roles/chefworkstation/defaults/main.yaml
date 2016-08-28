@@ -7,9 +7,9 @@
       org: exampleinc
       user: delivery
       userkey: /etc/ansible/files/keys/delivery.pem
-      orgkey: /etc/ansible/files/keys/exampleinc-validator.pem    
+      orgkey: /etc/ansible/files/keys/exampleinc-validator.pem
     chef-repo2:
       org: exampleorg
-      user: root
-      userkey: /etc/ansible/files/keys/root.pem
-      orgkey: /etc/ansible/files/keys/exampleorg-validator.pem   
+      user: chefroot
+      userkey: /etc/ansible/files/keys/chefroot.pem
+      orgkey: /etc/ansible/files/keys/exampleorg-validator.pem
