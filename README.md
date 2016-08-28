@@ -22,5 +22,15 @@ Chef Automate requires a license to install Chef Automate server. Please visit c
 
 ## Usage
 ### Deploy AWS infrastructure
-1. Copy cloudformation template to your workstation: https://github.com/Li9onGitHub/DevOpsDemo/blob/master/cloudformation/aws-devops-infrastructure.json
-2. 
+1. Copy CloudFormation template (aws-devops-infrastructure.json) to your workstation: https://github.com/Li9onGitHub/DevOpsDemo/blob/master/cloudformation/aws-devops-infrastructure.json
+2. Open AWS page
+3. Goto Servies/CloudFormation page
+4. Click on "Create Stack" 
+5. Click on "Choose File" and choose cloudformation which were recently stored on your workstaion
+6. Click "Next"
+7. On the "Specify Details" page fill in the following:
+ - Stack name
+ - Key Pair
+8. Click "Next"
+9. On the "Options" page click "Next"
+10. On the "Review" page click "Create"
