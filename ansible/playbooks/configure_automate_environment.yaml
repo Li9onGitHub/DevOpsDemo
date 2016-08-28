@@ -25,7 +25,7 @@
        shell: cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/chef-cookbooks/delivery-truck.git
 
      - name: download lamp cookbook
-       shell:  cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/ExampleInc/lamp.git
+       shell:  cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/Li9onGitHub/lamp.git
 
      - name: install and uploading berks dependencies
        shell: cd /home/chefuser/chef-repo1/cookbooks/{{ item }}; berks install && berks upload --no-ssl-verify
