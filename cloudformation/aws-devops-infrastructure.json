@@ -481,7 +481,7 @@
     "ChefServer": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.xlarge",
+        "InstanceType": "t2.large",
         "Tags": [
           {
             "Key": "Name",
@@ -507,17 +507,17 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-a5ac2bb2"
+        "ImageId": "ami-6d1c2007"
       }
     },
-    "DeliveryServer": {
+    "AutomateServer": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.xlarge",
+        "InstanceType": "t2.large",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "deliveryserver01"
+            "Value": "chefautomate01"
           }
         ],
         "NetworkInterfaces": [
@@ -539,45 +539,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-16ac2b01"
-      }
-    },
-    "DeliverySupermarket": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "c3.xlarge",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "chefsupermarket01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.19",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": "ami-4fab2c58"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "ChefCompliance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -603,45 +571,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-49ab2c5e"
-      }
-    },
-    "ChefAnalytics": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "c3.xlarge",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "chefanalytics01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.21",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": "ami-4bab2c5c"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Jenkins": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -667,13 +603,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-23ad2a34"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Splunk": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m4.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -699,13 +635,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-41aa2d56"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Build01": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -731,13 +667,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-31ab2c26"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Build02": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -763,13 +699,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2dad2a3a"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Build03": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "c3.large",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -795,7 +731,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2caa2d3b"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "WorkStation": {
@@ -827,13 +763,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-1aac2b0d"
+        "ImageId": "ami-6d1c2007"
       }
     },
     "Acceptance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m3.medium",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -859,13 +795,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-32ab2c25"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Union": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m3.medium",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -891,13 +827,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-e6aa2df1"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Rehearsal": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m3.medium",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -923,13 +859,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-3cab2c2b"
+        "ImageId": "ami-2d39803a"
       }
     },
     "Delivered": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "InstanceType": "m3.medium",
+        "InstanceType": "t2.small",
         "Tags": [
           {
             "Key": "Name",
@@ -955,13 +891,13 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-cbab2cdc"
+        "ImageId": "ami-2d39803a"
       }
     }
   },
   "Outputs": {
-    "ChefServerPubIP": {
-      "Description": "Public IP address of the Chef server",
+    "chefserver01": {
+      "Description": "chefserver01.example.com chefserver01",
       "Value": {
         "Fn::GetAtt": [
           "ChefServer",
@@ -969,44 +905,17 @@
         ]
       }
     },
-    "DeliveryServerPubIP": {
-      "Description": "Public IP address of the Delivery server",
+    "chefautomate01": {
+      "Description": "chefautomate01.examle.com chefautomate01",
       "Value": {
         "Fn::GetAtt": [
-          "DeliveryServer",
+          "AutomateServer",
           "PublicIp"
         ]
       }
     },
-    "Build01PubIP": {
-      "Description": "Public IP address of build node 1",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build01",
-          "PublicIp"
-        ]
-      }
-    },
-    "Build02PubIP": {
-      "Description": "Public IP address of build node 2",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build02",
-          "PublicIp"
-        ]
-      }
-    },
-    "Build03PubIP": {
-      "Description": "Public IP address of build node 3",
-      "Value": {
-        "Fn::GetAtt": [
-          "Build03",
-          "PublicIp"
-        ]
-      }
-    },
-    "WorkStation01PubIP": {
-      "Description": "Public IP address of workstation",
+    "workstaion01": {
+      "Description": "workstaion01.example.com workstaion01",
       "Value": {
         "Fn::GetAtt": [
           "WorkStation",
@@ -1014,8 +923,44 @@
         ]
       }
     },
-    "AcceptancePubIP": {
-      "Description": "Public IP address of the Acceptance environment",
+    "chefcompliance01": {
+      "Description": "chefcompliance.example.com chefcompliance01",
+      "Value": {
+        "Fn::GetAtt": [
+          "ChefCompliance",
+          "PublicIp"
+        ]
+      }
+    },
+    "union01": {
+      "Description": "union01.example.com union01",
+      "Value": {
+        "Fn::GetAtt": [
+          "Union",
+          "PublicIp"
+        ]
+      }
+    },
+    "rehearsal01": {
+      "Description": "rehearsal01.example.com rehearsal01",
+      "Value": {
+        "Fn::GetAtt": [
+          "Rehearsal",
+          "PublicIp"
+        ]
+      }
+    },
+    "delivered01": {
+      "Description": "delivered01.example.com delivered01",
+      "Value": {
+        "Fn::GetAtt": [
+          "Delivered",
+          "PublicIp"
+        ]
+      }
+    },
+    "acceptance01": {
+      "Description": "acceptance01.example.com acceptance01",
       "Value": {
         "Fn::GetAtt": [
           "Acceptance",
