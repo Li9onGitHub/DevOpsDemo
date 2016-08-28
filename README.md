@@ -304,6 +304,8 @@ git clone https://github.com/Li9onGitHub/lamp.git
 ```
 10. Init repository
 ```
-delivery init
+delivery init -c .delivery/config.json
 ```
+11. Visit Chef Automate page to see the changes: https://chefautomate01.example.com/e/demoent/#/organizations/exampleinc/projects/lamp/changes
+12. 
 
