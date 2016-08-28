@@ -76,7 +76,12 @@ Don't forget to paste key text to the file
 chmod 0600 /etc/ansible/keys/devops.key
 chown root /etc/ansible/keys/devops.key
 ```
-8. Check ansible connectivity
+8. Put Chef Automate  license file to /etc/ansible/files/automate.license
+```
+mkdir /etc/ansible/files
+cp some_ansible_license_file /etc/ansible/files/automate.license
+```
+9. Check ansible connectivity
 ```
 ansible -m ping all
 10.0.0.12 | SUCCESS => {
@@ -133,7 +138,13 @@ ansible -m ping all
 }
 ```
 If you see that hosts are unavailable than check your private key
-
+NOTE! There is a script on scripts directory which can automate that activities
 
 
 ### Install and configure services
+The ansible automation gives the fully automated installation of all required Chef Services for demo purposes. 
+It is enough to start installation process by running "ansible-playbook /etc/ansible/playbooks/deploy.yaml"
+```
+ansible-playbook /etc/ansible/playbooks/deploy.yaml
+```
+The process will take ~ 30 mins
