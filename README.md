@@ -151,6 +151,7 @@ The process will take ~ 30 mins
 
 ## Outputs
 The automation gives the following default outputs:
+
 1. Chef Server
  - Local hostname: chefserver01.example.com
  - Local IP: 10.0.0.11
@@ -174,4 +175,20 @@ The automation gives the following default outputs:
  - Local IP: 10.0.0.20
  - Chef Server integration is in place
  - Please visit https://<PublicIP> to complete installation process
-4.
+4. Chef Automate Server
+ - Local hostname: chefautomate01.example.com
+ - Local IP: 10.0.0.12
+ - User1: chefroot (with 'PASSWORD') which has all  privileges in exampleinc organization
+ - User2: manager (with 'PASSWORD') which has observer privileges in exampleinc organization
+ - buildnode0{1..3}.example.com are installed and configured as Automate Build Nodes
+ - Enterprise: "demoent" is created
+ - More information: /etc/ansible/roles/chefautomate/defaults/main.yaml
+5. Additional changes (provided by plabooks, not by chefautomate ansible role)
+ - all hosts are bootstraped into exampleinc organization
+ - delivery-base, delivery-truck and lamp packages are uploaded with all required dependencies
+ - The followinf environments are created:
+   - acceptance-demoent-exampleinc-lamp-master (acceptance01 is attached to this environment)
+   - union (union01 is attached)
+   - rehearsal (rehearsal01 is attached)
+   - delivered (delivered01 is attached)
+6. 
