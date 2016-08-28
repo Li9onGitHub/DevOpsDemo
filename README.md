@@ -152,7 +152,7 @@ The process will take ~ 30 mins
 ## Outputs
 The automation gives the following default outputs:
 
-1. Chef Server
+**1. Chef Server**
  - Local hostname: chefserver01.example.com
  - Local IP: 10.0.0.11
  - User1: chefroot (with 'PASSWORD') which has admin privileges
@@ -160,7 +160,7 @@ The automation gives the following default outputs:
  - Organization1: exampleorg (chefroot is attached to that org)
  - Organization2: exampleinc (delivery is attached to that org)
  - More information: /etc/ansible/roles/chefserver/defaults/main.yaml
-2. Chef Workstaion
+**2. Chef Workstaion**
  - Local hostname: workstaion01.example.com
  - Local IP: 10.0.0.24
  - ChefDK package is installed
@@ -170,12 +170,12 @@ The automation gives the following default outputs:
  - Organization1: exampleorg (chefroot is attached to that org)
  - Organization2: exampleinc (delivery is attached to that org)
  - More information: /etc/ansible/roles/chefworkstaion/defaults/main.yaml
-3. Chef Compliance
+**3. Chef Compliance**
  - Local hostname: chefcompliance01.example.com
  - Local IP: 10.0.0.20
  - Chef Server integration is in place
  - Please visit https://<PublicIP> to complete installation process
-4. Chef Automate Server
+**4. Chef Automate Server**
  - Local hostname: chefautomate01.example.com
  - Local IP: 10.0.0.12
  - User1: chefroot (with 'PASSWORD') which has all  privileges in exampleinc organization
@@ -183,7 +183,8 @@ The automation gives the following default outputs:
  - buildnode0{1..3}.example.com are installed and configured as Automate Build Nodes
  - Enterprise: "demoent" is created
  - More information: /etc/ansible/roles/chefautomate/defaults/main.yaml
-5. Additional changes (provided by plabooks, not by chefautomate ansible role)
+**5. Additional changes**
+ - provided by plabooks, not by chefautomate ansible role
  - all hosts are bootstraped into exampleinc organization
  - delivery-base, delivery-truck and lamp packages are uploaded with all required dependencies
  - The followinf environments are created:
@@ -191,4 +192,4 @@ The automation gives the following default outputs:
    - union (union01 is attached)
    - rehearsal (rehearsal01 is attached)
    - delivered (delivered01 is attached)
-6. 
+
