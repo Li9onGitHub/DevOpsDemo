@@ -214,11 +214,9 @@ Example host file:
 52.87.196.223	workstaion01.example.com workstaion01
 54.85.54.247	delivered01.example.com delivered01
 ```
-
 2. Complete Chef Compliance installation:
  - Visit http://chefcompliance01.example.com and compelete installation steps
  - If local hosts file was not configured - visit https://CompliancePublicIPAddress/
-
 3. Check environments, nodes, cookbooks
 Connect to workstaion and run the following:
 ```
@@ -244,17 +242,18 @@ rehearsal01
 union01
 workstation01
 ```
-
 5. Check availability of Chef server management console
  - Visit https://chefserver01.example.com
  - Use chefroot/PASSWORD
-
 6. Check availability of Chef Automate web console
  - Visit https://chefautomate01.example.com
  - Use chefroot/PASSWORD or delivery/PASSWORD
 
 
-
-
-
+## Configure Chef Automate application
+The environment has 4 application nodes:
+ - acceptance01
+ - union01
+ - rehearsal01
+ - delivered01
 
