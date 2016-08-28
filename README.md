@@ -48,14 +48,16 @@ The CloudFormation template installs the following servers:
 ### Prepare ansible host (workstaion01)
 1. Connect to workstaion01 host using SSH key authentication (Username: centos)
 2. Become root user
-```
-sudo su -
-```
+
+   ```
+   sudo su -
+   ```
 3. Install required software (git/ansible)
-```
-yum -y install  epel-release -y
-yum -y install git ansible ansible-lint wget vim -y
-```
+
+   ```
+   yum -y install  epel-release -y
+   yum -y install git ansible ansible-lint wget vim -y
+   ```
 4. Clone this repository to workstaion01
 ```
 cd /root
