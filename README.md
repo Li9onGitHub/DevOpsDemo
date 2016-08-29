@@ -159,11 +159,12 @@ The automation gives the following default outputs:
    - delivered (delivered01 is attached)
 
 ## Check the installation
+
 1. Setup local name resolution (hosts file)
 
 There is no DNS service and to user sevices from internet it is required to change your local hosts file.
-    - Linux: /etc/hosts
-    - Windwows: C:\Windows\System32\Drivers\etc\hosts
+   For Linux: /etc/hosts
+   For Windwows: C:\Windows\System32\Drivers\etc\hosts
    Public IP addresses can be given by CloudFormation outputs or directly from AWS interface for each service
    Example host file:
    ```
@@ -177,9 +178,7 @@ There is no DNS service and to user sevices from internet it is required to chan
    54.85.54.247	delivered01.example.com delivered01
    ```
 2. Complete Chef Compliance installation:
-
-   - Visit http://chefcompliance01.example.com and compelete installation steps
-   - If local hosts file was not configured - visit https://CompliancePublicIPAddress/
+   Visit http://chefcompliance01.example.com and compelete installation steps. If local hosts file was not configured - visit https://CompliancePublicIPAddress/
 3. Check environments, nodes, cookbooks
 
    Connect to workstaion and run the following:
@@ -238,41 +237,67 @@ There is a project https://github.com/Li9onGitHub/lamp which has a simple LAMP a
 2. On "Workflow -> Workflow Org" create a new "exampleinc" organization by "+NEW WORKFLOW ORG" 
 3. Connect to Chef Workstation using chefuser OS account 
 4. Ensure that lamp cookbook exists on Chef Server:
-```
-cd /home/chefuser/cher-repo1
-knife cookbook show lamp
-```
+
+   ```
+   cd /home/chefuser/cher-repo1
+   knife cookbook show lamp
+   ```
 5. Add lamp cookbook to runlist on all application nodes:
-```
-knife  node run_list add acceptance01 "recipe[lamp]"
-knife  node run_list add union01 "recipe[lamp]"
-knife  node run_list add rehearsal01 "recipe[lamp]"
-knife  node run_list add delivered01 "recipe[lamp]"
-```
+
+   ```
+   knife  node run_list add acceptance01 "recipe[lamp]"
+   knife  node run_list add union01 "recipe[lamp]"
+   knife  node run_list add rehearsal01 "recipe[lamp]"
+   knife  node run_list add delivered01 "recipe[lamp]"
+   ```
 6. Apply lamp cookbook on all nodes by push jobs:
-```
-knife job start 'chef-client' --search 'recipes:delivery-base'
-```
-This will take some time to be completed
+
+   ```
+   knife job start 'chef-client' --search 'recipes:delivery-base'
+   ```
+   This will take some time to be completed
 7. Configure Chef Automate Client
-```
-delivery setup --server=chefautomate01.example.com --ent=demoent --org=exampleinc --user=chefuser
-```
-it will ask for chefuser password (type 'PASSWORD')
+
+   ```
+   delivery setup --server=chefautomate01.example.com --ent=demoent --org=exampleinc --user=chefuser
+   ```
+   it will ask for chefuser password (type 'PASSWORD')
 8. Configure git idenity:
-```
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-```
+
+   ```
+   git config --global user.email "you@example.com"
+   git config --global user.name "Your Name"
+   ```
 9. Clone the project
-```
-cd
-git clone https://github.com/Li9onGitHub/lamp.git
-```
+
+   ```
+   cd
+   git clone https://github.com/Li9onGitHub/lamp.git
+   ```
 10. Init repository
-```
-delivery init -c .delivery/config.json
-```
+
+   ```
+   delivery init -c .delivery/config.json
+   ```
 11. Visit Chef Automate page to see the changes: https://chefautomate01.example.com/e/demoent/#/organizations/exampleinc/projects/lamp/changes
-12. 
+
+## Update application
+1. Get updates to master branch:
+
+   ```
+   cd lamp
+   git pull --prune
+   ```
+2. Create a new feature branch
+
+   ```
+   git checkout -n myfeature
+   vi file1
+   vi file2
+   vi metadata.rb (incrase version!!!)
+   git add .
+   git commit -m 'added new feature'
+   delivery review
+   ```
+3. Visit Chef Automate web page
 
