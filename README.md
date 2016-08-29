@@ -59,88 +59,47 @@ The CloudFormation template installs the following servers:
    yum -y install git ansible ansible-lint wget vim -y
    ```
 4. Clone this repository to workstaion01
-```
-cd /root
-git clone https://github.com/Li9onGitHub/DevOpsDemo.git
-```
+
+   ```
+   cd /root
+   git clone https://github.com/Li9onGitHub/DevOpsDemo.git
+   ```
 5. Replace ansible configuration files
-```
-rm -rf /etc/ansible/*
-cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/
-```
+
+   ```
+   rm -rf /etc/ansible/*
+   cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/
+   ```
 6. Prepare AWS Private Key and put in on workstaion
-```
-vi /etc/ansible/keys/devops.key
-```
-Don't forget to paste key text to the file
+
+   ```
+   vi /etc/ansible/keys/devops.key
+   ```
+   Don't forget to paste key text to the file
 7. Change permissions to the key file
-```
-chmod 0600 /etc/ansible/keys/devops.key
-chown root /etc/ansible/keys/devops.key
-```
+
+   ```
+   chmod 0600 /etc/ansible/keys/devops.key
+   chown root /etc/ansible/keys/devops.key
+   ```
 8. Put Chef Automate  license file to /etc/ansible/files/automate.license
-```
-mkdir /etc/ansible/files
-cp some_ansible_license_file /etc/ansible/files/automate.license
-```
+
+   ```
+   mkdir /etc/ansible/files
+   cp some_ansible_license_file /etc/ansible/files/automate.license
+   ```
 9. Check ansible connectivity
-```
-ansible -m ping all
-10.0.0.12 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.11 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.22 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.20 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.23 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.14 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.13 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.18 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.24 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.15 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.16 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.25 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-10.0.0.17 | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-```
-If you see that hosts are unavailable than check your private key
-NOTE! There is a script on scripts directory which can automate that activities
+
+   ```
+   ansible -m ping all
+   10.0.0.12 | SUCCESS => {
+       "changed": false,
+       "ping": "pong"
+   }
+   ...
+   ```
+   If you see that hosts are unavailable than check your private key
+   **NOTE! There is a script on scripts directory which can automate that activities**
 
 
 ### Install and configure services
