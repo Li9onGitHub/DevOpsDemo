@@ -1,0 +1,11 @@
+---
+  - hosts: chefautomate
+    roles:
+      - chefautomate
+    tasks:
+
+      - name: upload cheuser public key to Chef Automate Server
+        copy:  src=/etc/ansible/files/chefuser_id_rsa.pub dest=/root/
+
+      - name: create chefuser on Chef Automate server
+        command: delivery-ctl create-user demoent chefuser --password PASSWORD --roles "admin,observer,committer,reviewer,shipper" --ssh-pub-key-file=/root/chefuser_id_rsa.pub

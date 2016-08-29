@@ -1,0 +1,5 @@
+---
+# Deploy Chef Compliance scanner
+  - hosts: chefcompliance
+    roles:
+      - chefcompliance

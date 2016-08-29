@@ -3,37 +3,8 @@
     roles:
       - democommon
 
-# Deploy Chef Server
-  - hosts: chefserver
-    roles:
-      - chefserver
-
-# Configure Chef Workstation
-  - hosts: workstation
-    roles:
-      - chefworkstation
-    tasks:
-      - name: copy chefuser ssh public key to /etc/ansible/files
-        copy: src=/home/chefuser/.ssh/id_rsa.pub dest=/etc/ansible/files/chefuser_id_rsa.pub
-
-
-# Deploy Chef Automate server
-  - hosts: chefautomate
-    roles:
-      - chefautomate
-    tasks:
-
-      - name: upload cheuser public key to Chef Automate Server
-        copy:  src=/etc/ansible/files/chefuser_id_rsa.pub dest=/root/
-
-      - name: create chefuser on Chef Automate server
-        command: delivery-ctl create-user demoent chefuser --password PASSWORD --roles "admin,observer,committer,reviewer,shipper" --ssh-pub-key-file=/root/chefuser_id_rsa.pub
-
-# Configure Chef Automate environments
+  - include: chefserver.yaml
+  - include: chefworkstaion.yaml
+  - include: chefautomate.yaml
+  - include: chefcompliance.yaml
   - include: configure_automate_environment.yaml
-
-
-# Deploy Chef Compliance scanner
-  - hosts: chefcompliance
-    roles:
-      - chefcompliance
