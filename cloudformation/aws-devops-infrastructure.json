@@ -906,7 +906,7 @@
       }
     },
     "chefautomate01": {
-      "Description": "chefautomate01.examle.com chefautomate01",
+      "Description": "chefautomate01.example.com chefautomate01",
       "Value": {
         "Fn::GetAtt": [
           "AutomateServer",
