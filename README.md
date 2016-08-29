@@ -294,7 +294,7 @@ There is a project https://github.com/Li9onGitHub/lamp which has a simple LAMP a
    git checkout -n myfeature
    vi file1
    vi file2
-   vi metadata.rb (incrase version!!!)
+   vi metadata.rb (don't forget to increase version!!!)
    git add .
    git commit -m 'added new feature'
    delivery review
