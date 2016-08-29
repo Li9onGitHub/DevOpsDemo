@@ -35,7 +35,7 @@
          - lamp
 
      - name: add delivery-base and lamp to environment servers run_list
-       shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node run_list add  {{ item }} 'recipe[delivery-base]'
+       shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node run_list add  {{ item }} 'recipe[delivery-base],recipe[lamp]'
        with_items:
          - acceptance01
          - union01
