@@ -157,56 +157,62 @@ The automation gives the following default outputs:
    - union (union01 is attached)
    - rehearsal (rehearsal01 is attached)
    - delivered (delivered01 is attached)
+
 ## Check the installation
 1. Setup local name resolution (hosts file)
+
 There is no DNS service and to user sevices from internet it is required to change your local hosts file.
- - Linux: /etc/hosts
- - Windwows: C:\Windows\System32\Drivers\etc\hosts
-Public IP addresses can be given by CloudFormation outputs or directly from AWS interface for each service
-Example host file:
-```
-54.161.131.124	chefcompliance.example.com chefcompliance01
-54.161.157.148	chefautomate01.examle.com chefautomate01
-54.88.68.183	rehearsal01.example.com rehearsal01
-54.164.148.55	chefserver01.example.com chefserver01
-54.164.144.200	acceptance01.example.com acceptance01
-54.152.201.97	union01.example.com union01
-52.87.196.223	workstaion01.example.com workstaion01
-54.85.54.247	delivered01.example.com delivered01
-```
+    - Linux: /etc/hosts
+    - Windwows: C:\Windows\System32\Drivers\etc\hosts
+   Public IP addresses can be given by CloudFormation outputs or directly from AWS interface for each service
+   Example host file:
+   ```
+   54.161.131.124	chefcompliance.example.com chefcompliance01
+   54.161.157.148	chefautomate01.examle.com chefautomate01
+   54.88.68.183	rehearsal01.example.com rehearsal01
+   54.164.148.55	chefserver01.example.com chefserver01
+   54.164.144.200	acceptance01.example.com acceptance01
+   54.152.201.97	union01.example.com union01
+   52.87.196.223	workstaion01.example.com workstaion01
+   54.85.54.247	delivered01.example.com delivered01
+   ```
 2. Complete Chef Compliance installation:
- - Visit http://chefcompliance01.example.com and compelete installation steps
- - If local hosts file was not configured - visit https://CompliancePublicIPAddress/
+
+   - Visit http://chefcompliance01.example.com and compelete installation steps
+   - If local hosts file was not configured - visit https://CompliancePublicIPAddress/
 3. Check environments, nodes, cookbooks
-Connect to workstaion and run the following:
-```
-$ sudo su - chefuser
-$ cd ~/chef-repo1
-$ knife environment list
-_default
-acceptance-demoent-exampleinc-lamp-master
-delivered
-rehearsal
-union
-$ knife  node list
-acceptance01
-buildnode01.example.com
-buildnode02.example.com
-buildnode03.example.com
-chefautomate01
-chefcompliance01
-chefserver01
-delivered01
-rehearsal01
-union01
-workstation01
-```
+
+   Connect to workstaion and run the following:
+   ```
+   $ sudo su - chefuser
+   $ cd ~/chef-repo1
+   $ knife environment list
+   _default
+   acceptance-demoent-exampleinc-lamp-master
+   delivered
+   rehearsal
+   union
+   $ knife  node list
+   acceptance01
+   buildnode01.example.com
+   buildnode02.example.com
+   buildnode03.example.com
+   chefautomate01
+   chefcompliance01
+   chefserver01
+   delivered01
+   rehearsal01
+   union01
+   workstation01
+   ```
 5. Check availability of Chef server management console
- - Visit https://chefserver01.example.com
- - Use chefroot/PASSWORD
+
+   - Visit https://chefserver01.example.com
+   - Use chefroot/PASSWORD
 6. Check availability of Chef Automate web console
- - Visit https://chefautomate01.example.com
- - Use chefroot/PASSWORD or delivery/PASSWORD
+
+   - Visit https://chefautomate01.example.com
+   - Use chefroot/PASSWORD or delivery/PASSWORD
 
 
 # Configure Chef Automate application
