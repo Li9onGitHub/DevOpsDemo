@@ -13,10 +13,7 @@ ansible_become=true
 [infrahosts]
 10.0.0.11 hostname=chefserver01.example.com
 10.0.0.12 hostname=chefautomate01.example.com
-10.0.0.19 hostname=chefsupermarket01.example.com
 10.0.0.20 hostname=chefcompliance01.example.com
-10.0.0.22 hostname=jenkins01.example.com
-10.0.0.23 hostname=splunk01.example.com
 10.0.0.13 hostname=buildnode01.example.com
 10.0.0.14 hostname=buildnode02.example.com
 10.0.0.18 hostname=buildnode03.example.com
