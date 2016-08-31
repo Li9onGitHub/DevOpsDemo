@@ -627,38 +627,6 @@
         "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
-    "Jenkins": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "t2.small",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "jenkins01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.22",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
-      }
-    },
     "Splunk": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
