@@ -16,6 +16,59 @@
       "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x/x"
     }
   },
+
+  "Mappings" : {
+	"RegionToAMI" : {
+ 		"us-east-1": {
+ 			"centos": "ami-6d1c2007",
+ 			"ubuntu": "ami-2d39803a"
+ 		},
+ 		"us-west-1": {
+ 			"centos": "ami-af4333cf",
+ 			"ubuntu": "ami-48db9d28"
+ 		},
+ 		"us-west-2": {
+ 			"centos": "ami-d2c924b2",
+ 			"ubuntu": "ami-d732f0b7"
+ 		},
+ 		"ap-south-1": {
+ 			"centos": "ami-95cda6fa",
+ 			"ubuntu": "ami-4a90fa25"
+ 		},
+ 		"ap-northeast-2": {
+ 			"centos": "ami-c74789a9",
+ 			"ubuntu": "ami-09dc1267"
+ 		},
+ 		"ap-southeast-1": {
+ 			"centos": "ami-eec1c380",
+ 			"ubuntu": "ami-21d30f42"
+ 		},
+ 		"ap-southeast-2": {
+ 			"centos": "ami-fedafc9d",
+ 			"ubuntu": "ami-ba3e14d9"
+ 		},
+ 		"ap-northeast-1": {
+ 			"centos": "ami-eec1c380",
+ 			"ubuntu": "ami-a21529cc"
+ 		},
+ 		"eu-central-1": {
+ 			"centos": "ami-9bf712f4",
+ 			"ubuntu": "ami-26c43149"
+ 		},
+ 		"eu-west-1": {
+ 			"centos": "ami-7abd0209",
+ 			"ubuntu": "ami-ed82e39e"
+ 		},
+ 		"sa-east-1": {
+ 			"centos": "ami-26b93b4a",
+ 			"ubuntu": "ami-dc48dcb0"
+ 		}
+	 }
+  },
+
+
+
+
   "Resources": {
     "VPC": {
       "Type": "AWS::EC2::VPC",
@@ -507,7 +560,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "AutomateServer": {
@@ -539,7 +592,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+	"ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "ChefCompliance": {
@@ -571,39 +624,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
-      }
-    },
-    "Jenkins": {
-      "Type": "AWS::EC2::Instance",
-      "Properties": {
-        "InstanceType": "t2.small",
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "jenkins01"
-          }
-        ],
-        "NetworkInterfaces": [
-          {
-            "GroupSet": [
-              {
-                "Ref": "DeliverySecGroup"
-              }
-            ],
-            "AssociatePublicIpAddress": "true",
-            "PrivateIpAddress": "10.0.0.22",
-            "DeviceIndex": "0",
-            "DeleteOnTermination": "true",
-            "SubnetId": {
-              "Ref": "Subnet"
-            }
-          }
-        ],
-        "KeyName": {
-          "Ref": "KeyName"
-        },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "Splunk": {
@@ -635,7 +656,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "Build01": {
@@ -667,7 +688,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "Build02": {
@@ -699,7 +720,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "Build03": {
@@ -731,7 +752,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "WorkStation": {
@@ -763,7 +784,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-6d1c2007"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "Acceptance": {
@@ -795,7 +816,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2d39803a"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "ubuntu"]}
       }
     },
     "Union": {
@@ -827,7 +848,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2d39803a"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "ubuntu"]}
       }
     },
     "Rehearsal": {
@@ -859,7 +880,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2d39803a"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "ubuntu"]}
       }
     },
     "Delivered": {
@@ -891,7 +912,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": "ami-2d39803a"
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "ubuntu"]}
       }
     }
   },
