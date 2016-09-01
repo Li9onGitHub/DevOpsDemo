@@ -14,56 +14,79 @@
       "Default": "0.0.0.0/0",
       "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
       "ConstraintDescription": "Must be a valid IP CIDR range of the form x.x.x.x/x"
+    },
+    "AutomateLicenseFile": {
+      "Description": "Link to Chef Automate License file (http/https)",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "200",
+      "Default": "http://example.com/automate.license",
+      "ConstraintDescription": "Must be a valid web link"
+    },
+    "PrivateKeyFile": {
+      "Description": "Link to SSH private key",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "200",
+      "Default": "http://example.com/id_rsa.key",
+      "ConstraintDescription": "Must be a valid web link"
+    },
+    "InstallationType" : {
+      "Description" : "Type of Chef services installation (manual - you need to manually run ansible playbook, auto - cloudformation will run it automatically",
+      "Default" : "manual",
+      "Type" : "String",
+      "AllowedValues" : ["manual", "auto"],
+      "ConstraintDescription" : "must specify manual or auto."
     }
   },
 
   "Mappings" : {
-	"RegionToAMI" : {
- 		"us-east-1": {
- 			"centos": "ami-6d1c2007",
- 			"ubuntu": "ami-2d39803a"
- 		},
- 		"us-west-1": {
- 			"centos": "ami-af4333cf",
- 			"ubuntu": "ami-48db9d28"
- 		},
- 		"us-west-2": {
- 			"centos": "ami-d2c924b2",
- 			"ubuntu": "ami-d732f0b7"
- 		},
- 		"ap-south-1": {
- 			"centos": "ami-95cda6fa",
- 			"ubuntu": "ami-4a90fa25"
- 		},
- 		"ap-northeast-2": {
- 			"centos": "ami-c74789a9",
- 			"ubuntu": "ami-09dc1267"
- 		},
- 		"ap-southeast-1": {
- 			"centos": "ami-eec1c380",
- 			"ubuntu": "ami-21d30f42"
- 		},
- 		"ap-southeast-2": {
- 			"centos": "ami-fedafc9d",
- 			"ubuntu": "ami-ba3e14d9"
- 		},
- 		"ap-northeast-1": {
- 			"centos": "ami-eec1c380",
- 			"ubuntu": "ami-a21529cc"
- 		},
- 		"eu-central-1": {
- 			"centos": "ami-9bf712f4",
- 			"ubuntu": "ami-26c43149"
- 		},
- 		"eu-west-1": {
- 			"centos": "ami-7abd0209",
- 			"ubuntu": "ami-ed82e39e"
- 		},
- 		"sa-east-1": {
- 			"centos": "ami-26b93b4a",
- 			"ubuntu": "ami-dc48dcb0"
- 		}
-	 }
+        "RegionToAMI" : {
+                "us-east-1": {
+                        "centos": "ami-6d1c2007",
+                        "ubuntu": "ami-2d39803a"
+                },
+                "us-west-1": {
+                        "centos": "ami-af4333cf",
+                        "ubuntu": "ami-48db9d28"
+                },
+                "us-west-2": {
+                        "centos": "ami-d2c924b2",
+                        "ubuntu": "ami-d732f0b7"
+                },
+                "ap-south-1": {
+                        "centos": "ami-95cda6fa",
+                        "ubuntu": "ami-4a90fa25"
+                },
+                "ap-northeast-2": {
+                        "centos": "ami-c74789a9",
+                        "ubuntu": "ami-09dc1267"
+                },
+                "ap-southeast-1": {
+                        "centos": "ami-eec1c380",
+                        "ubuntu": "ami-21d30f42"
+                },
+                "ap-southeast-2": {
+                        "centos": "ami-fedafc9d",
+                        "ubuntu": "ami-ba3e14d9"
+                },
+                "ap-northeast-1": {
+                        "centos": "ami-eec1c380",
+                        "ubuntu": "ami-a21529cc"
+                },
+                "eu-central-1": {
+                        "centos": "ami-9bf712f4",
+                        "ubuntu": "ami-26c43149"
+                },
+                "eu-west-1": {
+                        "centos": "ami-7abd0209",
+                        "ubuntu": "ami-ed82e39e"
+                },
+                "sa-east-1": {
+                        "centos": "ami-26b93b4a",
+                        "ubuntu": "ami-dc48dcb0"
+                }
+         }
   },
 
 
@@ -592,7 +615,7 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-	"ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
       }
     },
     "ChefCompliance": {
@@ -757,6 +780,7 @@
     },
     "WorkStation": {
       "Type": "AWS::EC2::Instance",
+      "DependsOn" : ["ChefServer","AutomateServer","ChefCompliance","Splunk","Build01","Build02","Build03","Acceptance","Union","Rehearsal","Delivered"],
       "Properties": {
         "InstanceType": "t2.small",
         "Tags": [
@@ -784,7 +808,23 @@
         "KeyName": {
           "Ref": "KeyName"
         },
-        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]}
+        "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]},
+
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+    		"#!/bin/bash\n",
+    		"yum -y install epel-release\n",
+    		"yum -y install git mc vim ansible screen\n",
+    		"cd /root; git clone https://github.com/Li9onGitHub/DevOpsDemo.git\n",
+    		"rm -rf /etc/ansible/*\n",
+    		"cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/\n",
+   		"curl -o /etc/ansible/keys/devops.key ", { "Ref": "PrivateKeyFile" },"\n",
+    		"chmod 0600 /etc/ansible/keys/devops.key\n",
+    		"mkdir /etc/ansible/files\n",
+    		"curl -o /etc/ansible/files/automate.license ", { "Ref": "AutomateLicenseFile" },"\n",
+                "cd /root; screen -L -d -m ansible-playbook /etc/ansible/playbooks/deploy.yaml\n"
+	]]}}
+
+
       }
     },
     "Acceptance": {
@@ -991,3 +1031,4 @@
     }
   }
 }
+
