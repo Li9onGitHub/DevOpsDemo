@@ -14,6 +14,7 @@ The following things are part of this project:
 ## Before you begin
 It is assumed that all servers are deployed used the same ssh key. SSH private key will be used during automation process.
 Chef Automate requires a license to install Chef Automate server. Please visit chef.io to get the license file.
+Both this files should be public available for curl/wget from OS instance.
 
 ## Directories
  - cloudformation - it has CloudFormation template for AWS
@@ -31,6 +32,11 @@ Chef Automate requires a license to install Chef Automate server. Please visit c
 7. On the "Specify Details" page fill in the following:
  - Stack name
  - Key Pair
+ - Location of Chef Automate license file
+ - Lication of SSH Private key specified in "Key Pair"
+ - AutomationType
+   - auto - to start ansible sctipts automatically
+   - manual - do not start ansible, only create AWS infrastructure
 8. Click "Next"
 9. On the "Options" page click "Next"
 10. On the "Review" page click "Create"
@@ -45,7 +51,8 @@ The CloudFormation template installs the following servers:
  - rehearsal01 - rehearsal host (Ubuntu)
  - delivered01 - production host (Ubuntu)
 
-### Prepare ansible host (workstaion01)
+### Prepare ansible host (workstaion01, only for "manual")
+NOTE! This section is only needed when you specified "manual" InstallationType
 1. Connect to workstaion01 host using SSH key authentication (Username: centos)
 2. Become root user
 
@@ -109,6 +116,7 @@ It is enough to start installation process by running "ansible-playbook /etc/ans
 ansible-playbook /etc/ansible/playbooks/deploy.yaml
 ```
 The process will take ~ 30 mins
+NOTE! if "auto" InstallationType it will be run automatically
 
 ### Outputs
 The automation gives the following default outputs:
