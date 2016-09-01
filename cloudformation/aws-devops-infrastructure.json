@@ -90,6 +90,9 @@
   },
 
 
+  "Conditions" : {
+    "AutoStartAnsible" : {"Fn::Equals" : [{"Ref" : "InstallationType"}, "auto"]}
+  },
 
 
   "Resources": {
@@ -810,19 +813,25 @@
         },
         "ImageId": { "Fn::FindInMap" : [ "RegionToAMI", { "Ref" : "AWS::Region" }, "centos"]},
 
-        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
-    		"#!/bin/bash\n",
-    		"yum -y install epel-release\n",
-    		"yum -y install git mc vim ansible screen\n",
-    		"cd /root; git clone https://github.com/Li9onGitHub/DevOpsDemo.git\n",
-    		"rm -rf /etc/ansible/*\n",
-    		"cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/\n",
-   		"curl -o /etc/ansible/keys/devops.key ", { "Ref": "PrivateKeyFile" },"\n",
-    		"chmod 0600 /etc/ansible/keys/devops.key\n",
-    		"mkdir /etc/ansible/files\n",
-    		"curl -o /etc/ansible/files/automate.license ", { "Ref": "AutomateLicenseFile" },"\n",
-                "cd /root; screen -L -d -m ansible-playbook /etc/ansible/playbooks/deploy.yaml\n"
-	]]}}
+        "UserData" : { 
+		"Fn::If" : [ "AutoStartAnsible", 
+			{ "Fn::Base64" : {
+				"Fn::Join" : ["", [
+    				"#!/bin/bash\n",
+    				"yum -y install epel-release\n",
+    				"yum -y install git mc vim ansible screen\n",
+    				"cd /root; git clone https://github.com/Li9onGitHub/DevOpsDemo.git\n",
+    				"rm -rf /etc/ansible/*\n",
+    				"cp -rf /root/DevOpsDemo/ansible/* /etc/ansible/\n",
+   				"curl -o /etc/ansible/keys/devops.key ", { "Ref": "PrivateKeyFile" },"\n",
+    				"chmod 0600 /etc/ansible/keys/devops.key\n",
+    				"mkdir /etc/ansible/files\n",
+    				"curl -o /etc/ansible/files/automate.license ", { "Ref": "AutomateLicenseFile" },"\n",
+                		"cd /root; screen -L -d -m ansible-playbook /etc/ansible/playbooks/deploy.yaml\n"
+				]]
+			} },
+		"AWS::NoValue" ]
+	}
 
 
       }
