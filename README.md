@@ -32,11 +32,13 @@ Both this files should be public available for curl/wget from OS instance.
 7. On the "Specify Details" page fill in the following:
  - Stack name
  - Key Pair
- - Location of Chef Automate license file
- - Lication of SSH Private key specified in "Key Pair"
+ - FileAutomateLicense: Location of Chef Automate license file
+ - FileSSHKeyFile: Location of SSH Private key specified in "Key Pair"
  - AutomationType
    - auto - to start ansible sctipts automatically
-   - manual - do not start ansible, only create AWS infrastructure
+   - manual - no activities will be performed inside OS
+   - prepare - to prepare ansible environment but don't run ansible playbooks
+ - InstallSplunk - enable/disable Splunk service installation
 8. Click "Next"
 9. On the "Options" page click "Next"
 10. On the "Review" page click "Create"
