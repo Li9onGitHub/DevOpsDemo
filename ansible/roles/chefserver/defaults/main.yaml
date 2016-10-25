@@ -1,33 +1,33 @@
 ---
-   server_core_url: "https://packages.chef.io/stable/el/7/chef-server-core-12.8.0-1.el7.x86_64.rpm"
-   push_jobs_server_url: "https://packages.chef.io/stable/el/7/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm"
-   push_jobs: true
-   management_console: true
+#server_core_url: "https://packages.chef.io/stable/el/7/chef-server-core-12.8.0-1.el7.x86_64.rpm"
+server_core_url:  "https://packages.chef.io/stable/el/7/chef-server-core-12.9.1-1.el7.x86_64.rpm"
+push_jobs_server_url: "https://packages.chef.io/stable/el/7/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm"
+push_jobs: true
+management_console: true
 # exportdir - a directory on chef server where user and org keys will be stored
 # importdir - a directory on ansible server where the keys will be copied
-   exportdir: /keys
-   importdir: /etc/ansible/files/keys
+exportdir: /keys
+importdir: /etc/ansible/files/keys
 
 # Users to be added
-   users:
-     delivery:
-       email: delivery@example.com
-       pass: PASSWORD
-       firstname: Chef
-       lastname: Automate
-     chefroot:
-       email: chefroot@example.com
-       pass: PASSWORD
-       firstname: Chef
-       lastname: Admin
-
+users:
+ delivery:
+  email: delivery@example.com
+  pass: PASSWORD
+  firstname: Chef
+  lastname: Automate
+ chefroot:
+  email: chefroot@example.com
+  pass: PASSWORD
+  firstname: Chef
+  lastname: Admin
 # Organizations to configure
-   orgs:
-     exampleorg:
-       name: Example Org
-       user: chefroot
-     exampleinc:
-       name: Example Inc
-       user: delivery
+orgs:
+ exampleorg:
+  name: Example Org
+  user: chefroot
+ exampleinc:
+  name: Example Inc
+  user: delivery
 
 
