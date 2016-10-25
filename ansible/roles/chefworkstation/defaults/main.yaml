@@ -1,15 +1,16 @@
 ---
-  chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm
-  chef_server_address: chefserver01.example.com
-  os_user: chefuser
-  repos:
-    chef-repo1:
-      org: exampleinc
-      user: delivery
-      userkey: /etc/ansible/files/keys/delivery.pem
-      orgkey: /etc/ansible/files/keys/exampleinc-validator.pem
-    chef-repo2:
-      org: exampleorg
-      user: chefroot
-      userkey: /etc/ansible/files/keys/chefroot.pem
-      orgkey: /etc/ansible/files/keys/exampleorg-validator.pem
+#chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm
+chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.19.6-1.el7.x86_64.rpm
+chef_server_address: chefserver01.example.com
+os_user: chefuser
+repos:
+ chef-repo1:
+  org: exampleinc
+  user: delivery
+  userkey: /etc/ansible/files/keys/delivery.pem
+  orgkey: /etc/ansible/files/keys/exampleinc-validator.pem
+ chef-repo2:
+  org: exampleorg
+  user: chefroot
+  userkey: /etc/ansible/files/keys/chefroot.pem
+  orgkey: /etc/ansible/files/keys/exampleorg-validator.pem
