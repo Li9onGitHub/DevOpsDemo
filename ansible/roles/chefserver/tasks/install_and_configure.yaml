@@ -1,14 +1,11 @@
 ---
+
 - name: get chef server package
   get_url: url={{ server_core_url }} dest=/tmp/chef-server-core.rpm
-  async: 600
-  poll: 10
 
 - name: get push jobs server packages
   get_url: url={{ push_jobs_server_url }} dest=/tmp/push-jobs-server.rpm
   when: push_jobs
-  async: 600
-  poll: 10
 
 - name: install chef server and push jobs server packags
   yum: name=/tmp/chef-server-core.rpm  state=present
