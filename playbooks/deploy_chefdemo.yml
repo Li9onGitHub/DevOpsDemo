@@ -17,13 +17,13 @@
        ansible_user: "{{item.user}}"
        ansible_ssh_private_key_file: ~/{{KeyName}}.pem
      with_items:
-       - { name: chefserver01,     groups: 'infrahosts,chefserver',     user: ec2-user }
-       - { name: chefautomate01,   groups: 'infrahosts,chefautomate',   user: ec2-user }
-       - { name: chefcompliance01, groups: 'infrahosts,chefcompliance', user: ec2-user }
-       - { name: workstation01,    groups: 'infrahosts,workstation',    user: ec2-user }
-       - { name: buildnode01,      groups: 'infrahosts',                user: ec2-user }
-       - { name: buildnode02,      groups: 'infrahosts',                user: ec2-user }
-       - { name: buildnode03,      groups: 'infrahosts',                user: ec2-user }
+       - { name: chefserver01,     groups: 'infrahosts,chefserver',     user: centos }
+       - { name: chefautomate01,   groups: 'infrahosts,chefautomate',   user: centos }
+       - { name: chefcompliance01, groups: 'infrahosts,chefcompliance', user: centos }
+       - { name: workstation01,    groups: 'infrahosts,workstation',    user: centos }
+       - { name: buildnode01,      groups: 'infrahosts',                user: centos }
+       - { name: buildnode02,      groups: 'infrahosts',                user: centos }
+       - { name: buildnode03,      groups: 'infrahosts',                user: centos }
        - { name: acceptance01,     groups: 'apphosts',                  user: ubuntu }
        - { name: union01,          groups: 'apphosts',                  user: ubuntu }
        - { name: rehearsal01,      groups: 'apphosts',                  user: ubuntu }
