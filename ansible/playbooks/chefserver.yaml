@@ -1,5 +1,0 @@
----
-# Deploy Chef Server
-  - hosts: chefserver
-    roles:
-      - chefserver

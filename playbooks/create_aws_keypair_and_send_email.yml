@@ -1,0 +1,49 @@
+---
+# mandatory variables for this playbook:
+#  - domaintag
+#  - aws_access_key
+#  - aws_secret_key
+#  - email
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  vars_files:
+    - ../config.yml
+  tasks:
+    - name: create key pair {{KeyName}}
+      ec2_key:
+        name: "{{KeyName}}"
+        ec2_region: us-east-1
+        aws_access_key: "{{aws_access_key}}"
+        aws_secret_key: "{{aws_secret_key}}"
+      register: ec2_key
+
+    - name: save private key
+      copy:
+        content: "{{ ec2_key.key.private_key }}"
+        dest: "~/{{KeyName}}.pem"
+        mode: 0600
+      when: ec2_key|changed
+
+    - name: get private key information
+      command: cat ~/{{KeyName}}.pem
+      register: private_key
+
+    - name: send email that service has been ordered
+      mail:
+        subject: "Chef DevOps Demo environment has been ordered for {{publicdomain}}"
+        to: "{{email}}"
+        from: Li9 Demo <do-not-reply@demo.li9.com>
+        body: |
+          Chef DevOps Demo environment has been ordered for {{publicdomain}} 
+          The following information is important to connect to the service:
+          *) SSH username: ec2-user for all CentOS servers
+          *) SSH username: ubuntu for all Ubuntu servers
+          *) SSH access type: only using a private key
+          *) SSH private key is shown below:
+          {{ private_key.stdout }}
+          Thank you
+          //Li9 team
+      when: email is defined

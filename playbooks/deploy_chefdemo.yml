@@ -1,0 +1,62 @@
+---
+# Mandatory variables for this playbook:
+#  - domaintag
+#
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+   - name: add infrastrucure hosts to dynamic inventory
+     add_host:
+       name: "{{item.name}}.{{publicdomain}}"
+       groups: "{{item.groups}}"
+       ansible_connection: smart
+       ansible_user: "{{item.user}}"
+       ansible_ssh_private_key_file: ~/{{KeyName}}.pem
+     with_items:
+       - { name: chefserver01,     groups: 'infrahosts,chefserver',     user: ec2-user }
+       - { name: chefautomate01,   groups: 'infrahosts,chefautomate',   user: ec2-user }
+       - { name: chefcompliance01, groups: 'infrahosts,chefcompliance', user: ec2-user }
+       - { name: workstation01,    groups: 'infrahosts,workstation',    user: ec2-user }
+       - { name: buildnode01,      groups: 'infrahosts',                user: ec2-user }
+       - { name: buildnode02,      groups: 'infrahosts',                user: ec2-user }
+       - { name: buildnode03,      groups: 'infrahosts',                user: ec2-user }
+       - { name: acceptance01,     groups: 'apphosts',                  user: ubuntu }
+       - { name: union01,          groups: 'apphosts',                  user: ubuntu }
+       - { name: rehearsal01,      groups: 'apphosts',                  user: ubuntu }
+       - { name: delivered01,      groups: 'apphosts',                  user: ubuntu }
+     changed_when: false
+
+- hosts: all
+  gather_facts: false
+  become: false
+  tasks:
+   - name: wait until all hosts are up and running
+     wait_for: port=22 search_regex=OpenSSH delay={{item}} timeout=300
+     delegate_to: localhost
+     with_items:
+      - 1
+      - 2
+      - 3
+
+
+- hosts: infrahosts,apphosts
+  roles:
+   - democommon
+
+# Deploy Chef Server
+- hosts: chefserver
+  roles:
+   - chefserver
+
+- include: chefworkstaion.yaml
+- include: chefautomate.yaml
+
+
+# Deploy Chef Compliance scanner
+- hosts: chefcompliance
+  roles:
+   - chefcompliance
+
+- include: configure_automate_environment.yaml
