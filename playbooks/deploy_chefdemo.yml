@@ -6,6 +6,8 @@
 - hosts: localhost
   connection: local
   gather_facts: false
+  vars_files:
+    - ../config.yml
   tasks:
    - name: add infrastrucure hosts to dynamic inventory
      add_host:
@@ -42,11 +44,15 @@
 
 
 - hosts: infrahosts,apphosts
+  vars_files:
+    - ../config.yml
   roles:
    - democommon
 
 # Deploy Chef Server
 - hosts: chefserver
+  vars_files:
+    - ../config.yml
   roles:
    - chefserver
 

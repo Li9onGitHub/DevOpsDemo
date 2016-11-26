@@ -1,7 +1,9 @@
 ---
-  - hosts: workstation
-    roles:
-      - chefworkstation
-    tasks:
-      - name: copy chefuser ssh public key to /etc/ansible/files
-        copy: src=/home/chefuser/.ssh/id_rsa.pub dest=/etc/ansible/files/chefuser_id_rsa.pub
+- hosts: workstation
+  vars_files:
+   - ../config.yml
+  roles:
+   - chefworkstation
+  tasks:
+   - name: copy chefuser ssh public key to /etc/ansible/files
+     copy: src=/home/chefuser/.ssh/id_rsa.pub dest=/etc/ansible/files/chefuser_id_rsa.pub
