@@ -20,7 +20,7 @@
        - { name: chefserver01,     groups: 'infrahosts,chefserver',     user: centos }
        - { name: chefautomate01,   groups: 'infrahosts,chefautomate',   user: centos }
        - { name: chefcompliance01, groups: 'infrahosts,chefcompliance', user: centos }
-       - { name: workstation01,    groups: 'infrahosts,workstation',    user: centos }
+       - { name: chefworkstation01,groups: 'infrahosts,workstation',    user: centos }
        - { name: buildnode01,      groups: 'infrahosts',                user: centos }
        - { name: buildnode02,      groups: 'infrahosts',                user: centos }
        - { name: buildnode03,      groups: 'infrahosts',                user: centos }

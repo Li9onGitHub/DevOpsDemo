@@ -1,13 +1,12 @@
 ---
+- name: copy /etc/hosts
+  template: dest=/etc/hosts src=templates/hosts.j2
 
-  - name: copy /etc/hosts
-    template: dest=/etc/hosts src=templates/hosts.j2
+- name: Configure static hostname
+  hostname: name={{ inventory_hostname }}
 
-  - name: Configure static hostname
-    hostname: name={{ hostname }}
+- include: centos.yaml
+  when: ansible_distribution == "CentOS"
 
-  - include: centos.yaml
-    when: ansible_distribution == "CentOS"
-
-  - include: ubuntu.yaml
-    when: ansible_distribution == "Ubuntu"
+- include: ubuntu.yaml
+  when: ansible_distribution == "Ubuntu"

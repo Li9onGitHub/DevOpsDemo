@@ -922,7 +922,7 @@
         "Properties" : {
                 "HostedZoneId" :  "ZG1LSIRFXEMSJ",
                 "Comment" : "DNS name for my temporary zone.",
-                "Name" :  { "Fn::Join": [ ".", [  "chefworkstation",  { "Ref": "domaintag" }, "demo.li9.com"  ]] },
+                "Name" :  { "Fn::Join": [ ".", [  "chefworkstation01",  { "Ref": "domaintag" }, "demo.li9.com"  ]] },
                 "Type" : "A",
                 "TTL" : "900",
                 "ResourceRecords" : [ { "Fn::GetAtt" : [ "WorkStation", "PublicIp" ] } ]
