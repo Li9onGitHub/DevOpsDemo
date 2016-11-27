@@ -1,12 +1,12 @@
 ---
 - name: get chef automate packages
-  get_url: url={{ automate_url }}  dest=/tmp/automate.rpm
+  get_url: url={{ automate_url }}  dest=/tmp/automate.rpm timeout=120
 
 - name: install chef automate package
   yum: name=/tmp/automate.rpm  state=present
 
 - name: copy chef automate license file
-  get_url: url={{ license_file_url }} dest=/root/automate.license
+  get_url: url={{ license_file_url }} dest=/root/automate.license timeout=120
 
 - name: copy delivery user key file
   copy: src={{ delivery_user_key_file }} dest=/root/delivery.pem

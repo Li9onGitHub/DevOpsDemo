@@ -1,6 +1,6 @@
 ---
 - name: get chef server package
-  get_url: url={{ server_core_url }} dest=/tmp/chef-server-core.rpm
+  get_url: url={{ server_core_url }} dest=/tmp/chef-server-core.rpm timeout=120
 
 #- name: get push jobs server packages
 #  get_url: url={{ push_jobs_server_url }} dest=/tmp/push-jobs-server.rpm
