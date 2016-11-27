@@ -18,7 +18,7 @@
   copy: src={{ orgkey }} dest=~{{ os_user }}/{{ dir }}/.chef/
 
 - name: install knife.rb
-  template: src=templates/knife.rb.j2 dest=~{{ os_user }}/{{ dir }}/.chef/knife.rb
+  template: src=knife.rb.j2 dest=~{{ os_user }}/{{ dir }}/.chef/knife.rb
 
 - name: configure ssl
   shell: cd ~{{ os_user }}/{{ dir }} ; knife ssl fetch
