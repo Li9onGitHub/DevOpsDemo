@@ -1,7 +1,6 @@
 ---
-#compliance_url: https://packages.chef.io/stable/el/7/chef-compliance-1.3.1-1.el7.x86_64.rpm
 compliance_url: https://packages.chef.io/stable/el/7/chef-compliance-1.6.8-1.el7.x86_64.rpm
 enable_chef_server_integration: true
-chef_server_address: chefserver01.example.com
-fqdn: chefcompliance01.example.com
-chef_server_inventory_name: 10.0.0.11
+chef_server_address: chefserver01.{{publicdomain}}
+fqdn: chefcompliance01.{{publicdomain}}
+chef_server_inventory_name: chefserver01.{{publicdomain}}

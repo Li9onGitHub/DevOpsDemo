@@ -57,12 +57,11 @@
 
 - include: chefworkstaion.yaml
 
-- include: chefautomate.yaml
-
-
 # Deploy Chef Compliance scanner
 - hosts: chefcompliance
   roles:
    - chefcompliance
+
+- include: chefautomate.yaml
 
 - include: configure_automate_environment.yaml

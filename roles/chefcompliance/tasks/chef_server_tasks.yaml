@@ -1,14 +1,14 @@
 ---
 
-  - name: copy compliance_chef_app_id.sh to chef server
-    copy: src=/etc/ansible/files/compliance_chef_app_id.sh dest=/root/
-    delegate_to: "{{ chef_server_inventory_name }}"
+- name: copy compliance_chef_app_id.sh to chef server
+  copy: src={{importdir}}/compliance_chef_app_id.sh dest=/root/
+  delegate_to: "{{ chef_server_inventory_name }}"
 
-  - name: integration - configure chef server
-    shell: bash /root/compliance_chef_app_id.sh|grep "^chef-compliance-ctl auth add"
-    register: results
-    delegate_to: "{{ chef_server_inventory_name }}"
+- name: integration - configure chef server
+  shell: bash /root/compliance_chef_app_id.sh|grep "^chef-compliance-ctl auth add"
+  register: results
+  delegate_to: "{{ chef_server_inventory_name }}"
 
-  - name: save output to /etc/ansible/files/compliance_auth_add.sh
-    local_action: copy content="{{ results.stdout }}" dest=/etc/ansible/files/compliance_auth_add.sh
+- name: save output to {{importdir}}/compliance_auth_add.sh
+  local_action: copy content="{{ results.stdout }}" dest={{importdir}}/compliance_auth_add.sh
 

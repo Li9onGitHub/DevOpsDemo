@@ -1,22 +1,22 @@
 ---
 
-  - name: integration -  configure compliance
-    shell: chef-compliance-ctl connect chef-server --non-interactive true --chef-app-id 'compliance_server' --auth-id 'Chef Server' --insecure true --compliance-url 'https://{{ fqdn }}'|grep ^CHEF_APP_ID
-    register: results
+- name: integration - configure compliance
+  shell: chef-compliance-ctl connect chef-server --non-interactive true --chef-app-id 'compliance_server' --auth-id 'Chef Server' --insecure true --compliance-url 'https://{{ fqdn }}'|grep ^CHEF_APP_ID
+  register: results
 
-  - name: save output to /etc/ansible/files/compliance_chef_app_id.sh
-    local_action: copy content="{{ results.stdout }}" dest=/etc/ansible/files/compliance_chef_app_id.sh
+- name: save output to {{importdir}}/compliance_chef_app_id.sh
+  local_action: copy content="{{ results.stdout }}" dest={{importdir}}/compliance_chef_app_id.sh
 
-  - name: reconfigure chef compliance
-    command: chef-compliance-ctl reconfigure
+- name: reconfigure chef compliance
+  command: chef-compliance-ctl reconfigure
 
-  - name: restart chef compliance core
-    command: chef-compliance-ctl restart core
+- name: restart chef compliance core
+  command: chef-compliance-ctl restart core
 
-  - include: chef_server_tasks.yaml
+- include: chef_server_tasks.yaml
 
-  - name: integration - configure chef compliance
-    script: /etc/ansible/files/compliance_auth_add.sh
+- name: integration - configure chef compliance
+  script: "{{importdir}}/compliance_auth_add.sh"
 
-  - name: reconfigure chef compliance
-    command: chef-compliance-ctl reconfigure
+- name: reconfigure chef compliance
+  command: chef-compliance-ctl reconfigure

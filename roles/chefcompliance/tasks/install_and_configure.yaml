@@ -1,10 +1,10 @@
 ---
-  - name: get chef compliance package
-    get_url: url={{ compliance_url }} dest=/tmp/compliance.rpm
+- name: get chef compliance package
+  get_url: url={{ compliance_url }} dest=/tmp/compliance.rpm
 
-  - name: install chef compliance package
-    yum: name=/tmp/compliance.rpm state=present
+- name: install chef compliance package
+  yum: name=/tmp/compliance.rpm state=present
 
-  - name: reconfigure chef compliance
-    command: chef-compliance-ctl reconfigure --accept-license
+- name: reconfigure chef compliance
+  command: chef-compliance-ctl reconfigure --accept-license
 
