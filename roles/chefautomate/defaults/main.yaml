@@ -5,7 +5,7 @@ chef_server_address: chefserver01.{{publicdomain}}
 fqdn: chefautomate01.{{publicdomain}}
 
 # license_file should be on ansible server
-license_file: /etc/ansible/files/automate.license
+license_file_url: https://s3.amazonaws.com/chefdevopsdemo/automate.license
 
 # delivery_user_key_file should be on ansible server
 delivery_user_key_file: "{{importdir}}/delivery.pem"

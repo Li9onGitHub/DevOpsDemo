@@ -1,67 +1,71 @@
 ---
-  - hosts: workstation
-    tasks:
+- hosts: workstation
+  gather_facts: false
+  become: true
+  tasks:
 
-     - name: bootstrap  infrastructure servers
-       shell: cd /home/chefuser/chef-repo1; knife bootstrap {{ item }}.example.com -N {{ item }}  -x centos -i /etc/ansible/keys/devops.key --sudo
-       with_items:
-         - workstation01
-         - chefcompliance01
-         - chefserver01
-         - chefautomate01
+   - name: bootstrap  infrastructure servers
+     shell: cd /home/chefuser/chef-repo1; knife bootstrap {{ item }}.example.com -N {{ item }}  -x centos -i /etc/ansible/keys/devops.key --sudo
+     with_items:
+      - workstation01
+      - chefcompliance01
+      - chefserver01
+      - chefautomate01
 
-     - name: bootstrap  app  servers
-       shell: cd /home/chefuser/chef-repo1; knife bootstrap {{ item }}.example.com -N {{ item }}  -x ubuntu -i /etc/ansible/keys/devops.key --sudo
-       with_items:
-         - acceptance01
-         - union01
-         - rehearsal01
-         - delivered01
+   - name: bootstrap  app  servers
+     shell: cd /home/chefuser/chef-repo1; knife bootstrap {{ item }}.example.com -N {{ item }}  -x ubuntu -i /etc/ansible/keys/devops.key --sudo
+     with_items:
+      - acceptance01
+      - union01
+      - rehearsal01
+      - delivered01
 
-     - name: download delivery-base cookbook
-       shell: cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/chef-cookbooks/delivery-base.git
+   - name: download delivery-base cookbook
+     shell: cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/chef-cookbooks/delivery-base.git
 
-     - name: download delivery-truck cookbook
-       shell: cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/chef-cookbooks/delivery-truck.git
+   - name: download delivery-truck cookbook
+     shell: cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/chef-cookbooks/delivery-truck.git
 
-     - name: download lamp cookbook
-       shell:  cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/Li9onGitHub/lamp.git
+   - name: download lamp cookbook
+     shell:  cd /home/chefuser/chef-repo1/cookbooks; git clone https://github.com/Li9onGitHub/lamp.git
 
-     - name: install and uploading berks dependencies
-       shell: cd /home/chefuser/chef-repo1/cookbooks/{{ item }}; berks install && berks upload --no-ssl-verify
-       with_items:
-         - delivery-base
-         - delivery-truck
-         - lamp
+   - name: install and uploading berks dependencies
+     shell: cd /home/chefuser/chef-repo1/cookbooks/{{ item }}; berks install && berks upload --no-ssl-verify
+     with_items:
+      - delivery-base
+      - delivery-truck
+      - lamp
 
-     - name: add delivery-base and lamp to environment servers run_list
-       shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node run_list add  {{ item }} 'recipe[delivery-base],recipe[lamp]'
-       with_items:
-         - acceptance01
-         - union01
-         - rehearsal01
-         - delivered01
+   - name: add delivery-base and lamp to environment servers run_list
+     shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node run_list add  {{ item }} 'recipe[delivery-base],recipe[lamp]'
+     with_items:
+      - acceptance01
+      - union01
+      - rehearsal01
+      - delivered01
 
-     - name: create environments
-       shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife environment create {{ item }} --disable-editing
-       with_items:
-        - union
-        - rehearsal
-        - delivered
-        - acceptance-demoent-exampleinc-lamp-master
+   - name: create environments
+     shell: cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife environment create {{ item }} --disable-editing
+     with_items:
+      - union
+      - rehearsal
+      - delivered
+      - acceptance-demoent-exampleinc-lamp-master
 
-     - name: assign servers to environments
-       shell:  cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node environment set {{ item}}01 {{item}}
-       with_items:
-        - rehearsal
-        - union
-        - delivered
+   - name: assign servers to environments
+     shell:  cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node environment set {{ item}}01 {{item}}
+     with_items:
+      - rehearsal
+      - union
+      - delivered
 
-     - name: assign servers to environments
-       shell:  cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node environment set acceptance01 acceptance-demoent-exampleinc-lamp-master
+   - name: assign servers to environments
+     shell:  cd /home/chefuser/chef-repo1/cookbooks/delivery-base; knife node environment set acceptance01 acceptance-demoent-exampleinc-lamp-master
 
 
-  - hosts: apphosts
-    tasks:
-     - name: run chef client on app servers
-       command: chef-client
+- hosts: apphosts
+  become: true
+  gather_facts: false
+  tasks:
+   - name: run chef client on app servers
+     command: chef-client
