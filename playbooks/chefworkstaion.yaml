@@ -6,5 +6,6 @@
   roles:
    - chefworkstation
   tasks:
-   - name: copy chefuser ssh public key to /etc/ansible/files
-     copy: src=/home/chefuser/.ssh/id_rsa.pub dest=/etc/ansible/files/chefuser_id_rsa.pub
+   - name: copy chefuser ssh public key to {{importdir}}
+     copy: src=/home/chefuser/.ssh/id_rsa.pub dest={{importdir}}/chefuser_id_rsa.pub
+     delegate_to: 127.0.0.1
