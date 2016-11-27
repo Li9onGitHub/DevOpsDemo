@@ -5,7 +5,8 @@
   register: results
 
 - name: save output to {{importdir}}/compliance_chef_app_id.sh
-  local_action: copy content="{{ results.stdout }}" dest={{importdir}}/compliance_chef_app_id.sh
+  copy: content="{{results.stdout }}" dest="{{importdir}}/compliance_chef_app_id.sh"
+  delegate_to: localhost
 
 - name: reconfigure chef compliance
   command: chef-compliance-ctl reconfigure
