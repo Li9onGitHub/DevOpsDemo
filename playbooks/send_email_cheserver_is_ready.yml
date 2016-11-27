@@ -1,0 +1,38 @@
+- hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars_files:
+   - ../config.yml
+  tasks:
+    - name: get private key information
+      command: cat ~/{{KeyName}}.pem
+      register: private_key
+
+    - name: send email that chefserver is ready
+      mail:
+        subject: "{{publicdomain}}: Chef server service is ready to use"
+        to: "{{email}}"
+        from: Li9 Demo <do-not-reply@demo.li9.com>
+        body: |
+          Chef Server and Chef Workstation are ready to use as parts for Chef Demo Environment
+          The following information is important to connect to the service:
+          *) Chef Server Hostname: chefserver01.{{publicdomain}}
+          *) Chef Server URL: https://chefserver01.{{publicdomain}}
+          *) The following users can be used:
+             - chefroot/PASSWORD (demoorg organization)
+             - delivery/PASSWORD (exampleinc organization)
+          *) Chef Workstation was configured on chefworkstaion01.{{publicdomain}}
+          *) Chef Workstaion OS user is chefuser (please start using as shown below):
+          su - chefuser
+          cd che-repo1 (or chef-repo2)
+          knife node list
+          knife help
+          *) SSH username: ec2-user
+          *) SSH access type: only using a private key
+          *) SSH private key is shown below:
+          {{ private_key.stdout }}
+          Thank you
+          //Li9 team
+      when: email is defined
+

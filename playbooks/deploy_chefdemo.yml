@@ -57,6 +57,8 @@
 
 - include: chefworkstaion.yaml
 
+- include: send_email_cheserver_is_ready.yml
+
 # Deploy Chef Compliance scanner
 - hosts: chefcompliance
   roles:
