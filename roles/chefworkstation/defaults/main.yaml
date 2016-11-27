@@ -1,7 +1,7 @@
 ---
 #chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.17.17-1.el7.x86_64.rpm
 chefdk_url: https://packages.chef.io/stable/el/7/chefdk-0.19.6-1.el7.x86_64.rpm
-chef_server_address: chefserver01.example.com
+chef_server_address: chefserver01.{{publicdomain}}
 os_user: chefuser
 repos:
  chef-repo1:
