@@ -3,7 +3,7 @@
   hostname: name={{ inventory_hostname }}
 
 - name: configure hosts file
-  template: src=templates/hosts.j2 dest=/etc/hosts
+  template: src=hosts.j2 dest=/etc/hosts
 
 - include: centos.yaml
   when: ansible_distribution == "CentOS"
