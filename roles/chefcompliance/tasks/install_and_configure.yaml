@@ -1,6 +1,6 @@
 ---
 - name: get chef compliance package
-  get_url: url={{ compliance_url }} dest=/tmp/compliance.rpm
+  get_url: url={{ compliance_url }} dest=/tmp/compliance.rpm timeout=120
 
 - name: install chef compliance package
   yum: name=/tmp/compliance.rpm state=present
