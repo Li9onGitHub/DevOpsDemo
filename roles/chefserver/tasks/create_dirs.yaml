@@ -4,5 +4,6 @@
 
 - name: create key import directory
   file: path={{ importdir }} state=directory mode=0755 recurse=yes
+  become: false
   delegate_to: 127.0.0.1
 

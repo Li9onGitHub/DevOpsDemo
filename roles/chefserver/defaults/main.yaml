@@ -1,7 +1,7 @@
 ---
 #server_core_url: "https://packages.chef.io/stable/el/7/chef-server-core-12.8.0-1.el7.x86_64.rpm"
 server_core_url:  "https://packages.chef.io/stable/el/7/chef-server-core-12.9.1-1.el7.x86_64.rpm"
-push_jobs_server_url: "https://packages.chef.io/stable/el/7/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm"
+#push_jobs_server_url: "https://packages.chef.io/stable/el/7/opscode-push-jobs-server-2.1.0-1.el7.x86_64.rpm"
 push_jobs: true
 management_console: true
 # exportdir - a directory on chef server where user and org keys will be stored

@@ -33,12 +33,14 @@
 - hosts: all
   gather_facts: false
   become: false
+  serial: 15
   tasks:
    - name: wait until all hosts are up and running
      wait_for: port=22 search_regex=OpenSSH delay=15 timeout=300
      delegate_to: localhost
 
 - hosts: infrahosts,apphosts
+  serial: 15
   become: true
   vars_files:
    - ../config.yml
