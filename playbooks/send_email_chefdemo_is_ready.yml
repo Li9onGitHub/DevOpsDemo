@@ -9,13 +9,13 @@
       command: cat ~/{{KeyName}}.pem
       register: private_key
 
-    - name: send email that chefserver is ready
+    - name: send email that chefdemo is ready
       mail:
-        subject: "{{publicdomain}}: Chef server service is ready to use"
+        subject: "{{publicdomain}}: Chef Demo Environment is ready to use"
         to: "{{email}}"
         from: Li9 Demo <do-not-reply@demo.li9.com>
         body: |
-          Chef Server and Chef Workstation are ready to use as parts for Chef Demo Environment
+          Your requests for Chef Demo Environment has been completed
           The following information is important to connect to the service:
           *) Chef Server Hostname: chefserver01.{{publicdomain}}
           *) Chef Server URL: https://chefserver01.{{publicdomain}}
@@ -28,6 +28,8 @@
           cd che-repo1 (or chef-repo2)
           knife node list
           knife help
+          *) Chef Compliance Scanner is available via URL: https://chefcompliance01.{{publicdomain}}
+          *) Chef Compliance Hostname: chefcompliance01.{{publicdomain}}
           *) SSH username: ec2-user
           *) SSH access type: only using a private key
           *) SSH private key is shown below:
