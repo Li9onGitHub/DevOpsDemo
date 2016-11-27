@@ -61,6 +61,9 @@
 
 # Deploy Chef Compliance scanner
 - hosts: chefcompliance
+  become: true
+  vars_files:
+   - ../config.yml
   roles:
    - chefcompliance
 
