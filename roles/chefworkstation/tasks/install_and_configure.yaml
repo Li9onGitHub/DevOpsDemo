@@ -1,17 +1,16 @@
 ---
+- name: install chefdk package
+  yum: name={{ chefdk_url }}  state=present
 
-  - name: install chefdk package
-    yum: name={{ chefdk_url }}  state=present
+- name: install additional packages
+  yum: name={{ item }} state=present
+  with_items:
+   - git
+   - vim
 
-  - name: install additional packages
-    yum: name={{ item }} state=present
-    with_items:
-      - git
-      - vim
+- name: verify chefdk installation
+  command: chef verify
 
-  - name: verify chefdk installation
-    command: chef verify
-
-  - name: configure system ruby
-    shell: echo 'eval "$(chef shell-init bash)"' >> /etc/profile
+- name: configure system ruby
+  shell: echo 'eval "$(chef shell-init bash)"' >> /etc/profile
 

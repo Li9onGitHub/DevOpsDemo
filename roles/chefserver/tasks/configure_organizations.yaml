@@ -1,11 +1,10 @@
 ---
+- name: create an organiztion
+  shell: chef-server-ctl org-create {{ item.key }} '{{ item.value.name }}' --association_user {{ item.value.user }} --filename {{ exportdir }}/{{ item.key }}-validator.pem
+  with_dict: "{{orgs}}"
+  register: results
+  failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
 
-  - name: create an organiztion
-    shell: chef-server-ctl org-create {{ item.key }} '{{ item.value.name }}' --association_user {{ item.value.user }} --filename {{ exportdir }}/{{ item.key }}-validator.pem
-    with_dict: "{{orgs}}"
-    register: results
-    failed_when:  not((results.rc == 0)or(results.stderr.find('already exists') != -1))
-
-  - name: fetch org key validator files
-    fetch: src={{ exportdir }}/{{ item.key }}-validator.pem  dest={{ importdir }}/ flat=yes fail_on_missing=yes
-    with_dict: "{{orgs}}"
+- name: fetch org key validator files
+  fetch: src={{ exportdir }}/{{ item.key }}-validator.pem  dest={{ importdir }}/ flat=yes fail_on_missing=yes
+  with_dict: "{{orgs}}"

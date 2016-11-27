@@ -1,9 +1,9 @@
 ---
-- name: copy /etc/hosts
-  template: dest=/etc/hosts src=templates/hosts.j2
-
 - name: Configure static hostname
   hostname: name={{ inventory_hostname }}
+
+- name: configure hosts file
+  template: src=templates/hosts.j2 dest=/etc/hosts
 
 - include: centos.yaml
   when: ansible_distribution == "CentOS"

@@ -1,8 +1,8 @@
 ---
-  - name: create key export directory
-    file: path={{ exportdir }} state=directory mode=0755 recurse=yes
+- name: create key export directory
+  file: path={{ exportdir }} state=directory mode=0755 recurse=yes
 
-  - name: create key import directory
-    file: path={{ importdir }} state=directory mode=0755 recurse=yes
-    delegate_to: 127.0.0.1
+- name: create key import directory
+  file: path={{ importdir }} state=directory mode=0755 recurse=yes
+  delegate_to: 127.0.0.1
 

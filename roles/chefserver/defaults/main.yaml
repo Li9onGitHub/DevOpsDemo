@@ -7,7 +7,7 @@ management_console: true
 # exportdir - a directory on chef server where user and org keys will be stored
 # importdir - a directory on ansible server where the keys will be copied
 exportdir: /keys
-importdir: /etc/ansible/files/keys
+importdir: ~/chefdemoimport
 
 # Users to be added
 users:

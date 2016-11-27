@@ -1,14 +1,14 @@
 ---
-  - include: install_and_configure.yaml
-    tags:
-      - install
+- include: install_and_configure.yaml
+  tags:
+   - install
 
-  - name: create OS user {{ os_user }}
-    user: name={{ os_user }} generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa state=present createhome=yes
-    tags:
-     - repo
+- name: create OS user {{ os_user }}
+  user: name={{ os_user }} generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa state=present createhome=yes
+  tags:
+   - repo
 
-  - include: chefrepo.yaml dir={{ item.key }} org={{ item.value.org }} user={{ item.value.user }} userkey={{ item.value.userkey }} orgkey={{ item.value.orgkey }}
-    with_dict: "{{repos}}"
-    tags:
-      - repo
+- include: chefrepo.yaml dir={{ item.key }} org={{ item.value.org }} user={{ item.value.user }} userkey={{ item.value.userkey }} orgkey={{ item.value.orgkey }}
+  with_dict: "{{repos}}"
+  tags:
+   - repo

@@ -1,17 +1,17 @@
 ---
-   - include: install_and_configure.yaml
-     tags:
-       - install
+- include: install_and_configure.yaml
+  tags:
+   - install
 
-   - include: create_dirs.yaml
-     tags:
-       - user
-       - org
+- include: create_dirs.yaml
+  tags:
+   - user
+   - org
 
-   - include: configure_users.yaml
-     tags:
-       - user
+- include: configure_users.yaml
+  tags:
+   - user
 
-   - include: configure_organizations.yaml
-     tags:
-       - org
+- include: configure_organizations.yaml
+  tags:
+   - org

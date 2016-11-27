@@ -3,4 +3,5 @@ publicdomain:           "{{domaintag}}.demo.li9.com"
 domaintag:              ddh
 KeyName:                "idrsa-chefdemo-{{domaintag}}"
 StackName:              "UserChefDemo-{{domaintag}}"
+importdir:		"~/chefdemoimport"
 

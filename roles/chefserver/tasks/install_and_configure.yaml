@@ -1,5 +1,4 @@
 ---
-
 - name: get chef server package
   get_url: url={{ server_core_url }} dest=/tmp/chef-server-core.rpm
 
