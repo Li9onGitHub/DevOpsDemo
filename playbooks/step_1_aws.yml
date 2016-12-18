@@ -62,7 +62,7 @@
         state: "present"
         region: "us-east-1"
         disable_rollback: true
-        template: "..cloudformation/chefdemo.json"
+        template: "../cloudformation/chefdemo.json"
         aws_access_key: "{{aws_access_key}}"
         aws_secret_key: "{{aws_secret_key}}"
         template_parameters:
