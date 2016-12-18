@@ -12,6 +12,12 @@
   vars_files:
     - ../config.yml
   tasks:
+
+    - include_vars: "{{ item }}"
+      with_first_found:
+       - ~/ansible_external_variables.yml
+      ignore_errors: true
+
     - name: create key pair {{KeyName}}
       ec2_key:
         name: "{{KeyName}}"
@@ -31,6 +37,7 @@
       command: cat ~/{{KeyName}}.pem
       register: private_key
 
+
     - name: send email that service has been ordered
       mail:
         subject: "Chef DevOps Demo environment has been ordered for {{publicdomain}}"
@@ -47,3 +54,21 @@
           Thank you
           //Li9 team
       when: email is defined
+
+
+    - name: launch ansible cloudformation {{StackName}}
+      cloudformation:
+        stack_name: "{{StackName}}"
+        state: "present"
+        region: "us-east-1"
+        disable_rollback: true
+        template: "..cloudformation/chefdemo.json"
+        aws_access_key: "{{aws_access_key}}"
+        aws_secret_key: "{{aws_secret_key}}"
+        template_parameters:
+          KeyName: "{{KeyName}}"
+          domaintag: "{{domaintag}}"
+        tags:
+          Stack: "{{StackName}}"
+      register: cfres
+

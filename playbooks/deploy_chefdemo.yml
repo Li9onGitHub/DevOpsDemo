@@ -3,6 +3,9 @@
 #  - domaintag
 #
 
+
+- include: step_1_aws.yml
+
 - hosts: localhost
   connection: local
   gather_facts: false
